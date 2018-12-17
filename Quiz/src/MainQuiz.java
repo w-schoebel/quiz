@@ -1,8 +1,8 @@
 import java.util.Scanner;
 
-public class QuizAllgemein {
+public class MainQuiz {
 
-	private void begruessung() {
+	private void opening() {
 		seperatorLine();
 		System.out.println("Willkommen bei [Name].");// TODO: Name einfügen
 	}
@@ -77,8 +77,8 @@ public class QuizAllgemein {
 	}
 
 	public static void main(String[] args) {
-		QuizAllgemein quiz = new QuizAllgemein();
-		quiz.begruessung();
+		MainQuiz quiz = new MainQuiz();
+		quiz.opening();
 		int playerCount = quiz.initPlayerCount();
 		String[][] player = quiz.initPlayer(playerCount); // Spieleranzahl übergeben an initPlayer
 		quiz.StartQuiz(player);
