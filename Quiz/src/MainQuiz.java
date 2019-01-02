@@ -8,7 +8,7 @@ public class MainQuiz {
 
 	private void opening() {
 		seperatorLine();
-		System.out.println("Willkommen bei [Name].");// TODO: Name einfügen
+		System.out.println("Willkommen bei [Name].");// TODO: Name einfï¿½gen
 	}
 
 	private int initPlayerCount() {
@@ -16,7 +16,7 @@ public class MainQuiz {
 		System.out.println("Bitte geben Sie die Anzahl der Spieler ein, die an diesem Quiz teilnehmen -");
 
 		int playerCount = 0;
-		while (playerCount < 2 || playerCount > 6) {// damit nur Spieleranzahl zwischen 2 und 6 möglich
+		while (playerCount < 2 || playerCount > 6) {// damit nur Spieleranzahl zwischen 2 und 6 mï¿½glich
 			System.out.println("Spieleranzahl [2-6]: \n");
 			playerCount = getIntFromConsole();
 		}
@@ -24,49 +24,53 @@ public class MainQuiz {
 		return playerCount;
 	}
 
-	private String[][] initPlayer(int playerCount) {
+	private Player[] initPlayers(int playerCount) {
 		seperatorLine();
 
-		String[][] player = new String[playerCount][playerCount]; // beinhaltet Name und Punktzahl
+		// players is a list/ array of the Player object so name it in the plural
+		Player[] players = new Player[playerCount];
+
 
 		for (int i = 0; i < playerCount; i++) {
-			System.out.println(String.format("Bitte geben Sie den Namen für Spieler %d ein: ", i + 1));
-			player[i][0] = getStringFromConsole();
-			player[i][1] = "0";
+			System.out.println(String.format("Bitte geben Sie den Namen fï¿½r Spieler %d ein: ", i + 1));
+
+			players[i] = new Player(getStringFromConsole(), 0);
+			//this is just a check for devWork
+			System.out.println(String.format("Name and score are:", players[i].name + ' ' + players[i].score));
 		}
 
-		return player;
+		return players;
 	}
 
-	private void startQuiz(String[][] player) {
+	private void startQuiz(Player[] players) {
 		seperatorLine();
 		
-		System.out.println("Das Quiz kann nun beginnen! Die folgenden Spieler haben sich für das Quiz angemeldet: \n");
+		System.out.println("Das Quiz kann nun beginnen! Die folgenden Spieler haben sich fï¿½r das Quiz angemeldet: \n");
 		
-		for (int i = 0; i < player.length; i++) {
-			System.out.println(String.format("Spieler %d: %s | Punktzahl: %s", i + 1, player[i][0], player[i][1]));
+		for (int i = 0; i < players.length; i++) {
+			System.out.println(String.format("Spieler %s: %s | Punktzahl: %s", i + 1, players[i].name, players[i].score));
 		}
 		seperatorLine();
-		
-		System.out.println("Wie viele Runden sollen gespielt werden: ");
-		int roundCount = getIntFromConsole();
-		
-		for (int round = 0; round < roundCount; round++) {
-			for (int currentPlayer = 0; currentPlayer < player.length; currentPlayer++) {
+
+		//System.out.println(_questions.size());
+		//_question not in scope, need rework 
+		for (int round = 0; round <  4; round++) {
+			for (int currentPlayer = 0; currentPlayer < players.length; currentPlayer++) {
 				Question question = getQuestion();
-				if(showQuestion(question, round * player.length + currentPlayer, player[currentPlayer][0])) {
-					increaseScore(player, currentPlayer);
+				if(showQuestion(question,  players.length + currentPlayer, players[currentPlayer].name)) {
+					increaseScore(players, currentPlayer);
 				}
 			}
-		}	
+		}
 	}
 	
 	/**
-	 * eine zufällige Frage zurückgeben aus Fragenliste und Fragenliste befüllen
+	 * eine zufï¿½llige Frage zurï¿½ckgeben aus Fragenliste und Fragenliste befï¿½llen
 	 * @return
 	 */
 	private Question getQuestion() {
-		
+		// init questions and getting single question should be in diff functions
+		// TODO init _question at start and make it global (or this._questions)
 		Question question = null;
 		
 		if (_questions == null) {
@@ -86,7 +90,7 @@ public class MainQuiz {
 	
 	private Boolean showQuestion(Question question, int questionNumber, String playerName) {
 		seperatorLine();
-		System.out.println(String.format("Frage Nr. %d für %s: ", questionNumber + 1, playerName));
+		System.out.println(String.format("Frage Nr. %d fï¿½r %s: ", questionNumber + 1, playerName));
 		
 		Boolean isCorrectSolved = false;
 		
@@ -159,7 +163,7 @@ public class MainQuiz {
 		Boolean isCorrectSolved = false;
 		
 		System.out.println(String.format("Frage: %s ", question.question) + 
-				"Antworten Sie mit w (für wahr) oder f (für falsch)!");
+				"Antworten Sie mit w (fï¿½r wahr) oder f (fï¿½r falsch)!");
 		
 		String input = "";
 		
@@ -192,10 +196,10 @@ public class MainQuiz {
 		Boolean isCorrectSolved = false;
 		
 		System.out.println(String.format("Frage: %s ", question.question) + 
-				"Anworten Sie über die Eingabe mit der korrekten Antwort!");
+				"Anworten Sie ï¿½ber die Eingabe mit der korrekten Antwort!");
 		
 		String input = getStringFromConsole();
-		//trim -> Leerzeichen entfernen, damit dadurch keine Fehler entstehen können (z.B. zu viele Leerzeichen zwischen Wörtern)
+		//trim -> Leerzeichen entfernen, damit dadurch keine Fehler entstehen kï¿½nnen (z.B. zu viele Leerzeichen zwischen Wï¿½rtern)
 		if (input.trim().equalsIgnoreCase(question.answer1.trim())) {
 			isCorrectSolved = true;
 		}
@@ -203,24 +207,22 @@ public class MainQuiz {
 		return isCorrectSolved;
 	}
 	
-	private void increaseScore (String[][] player, int currentPlayer) {
-		String currentScore = player [currentPlayer][1];
-		if(tryParseInt(currentScore)) {
-			Integer newScore = Integer.parseInt(currentScore) + 100;
-			player[currentPlayer][1] = newScore.toString();
-		}
+	private void increaseScore (Player[] players, int currentPlayer) {
+		int currentScore = players[currentPlayer].score;
+		currentScore += 100;
+		Player player = players[currentPlayer].setScore(currentScore);
 	}
 	
 	public static void main(String[] args) {
 		MainQuiz quiz = new MainQuiz();
 		quiz.opening();
 		int playerCount = quiz.initPlayerCount();
-		String[][] player = quiz.initPlayer(playerCount); // Spieleranzahl übergeben an initPlayer
-		quiz.startQuiz(player);
+		Player[] players = quiz.initPlayers(playerCount); // Spieleranzahl ï¿½bergeben an initPlayer
+		quiz.startQuiz(players);
 		System.out.println("Highscore: ");
-		for(int i = 0; i < player.length; i++)
+		for(int i = 0; i < players.length; i++)
 		{
-			System.out.println(String.format("%s hat %s Punkte", player[i][0], player[i][1]));
+			System.out.println(String.format("%s hat %s Punkte", players[i].name, players[i].score));
 		}
 	}
 
@@ -253,7 +255,7 @@ public class MainQuiz {
 
 	private boolean tryParseInt(String value) {
 		try {
-			Integer.parseInt(value); // versucht den String in einen Int zu überführen
+			Integer.parseInt(value); // versucht den String in einen Int zu ï¿½berfï¿½hren
 			return true;
 		} catch (NumberFormatException e) { // wenn kein Int geparst werden kann-> Exception e
 			return false;

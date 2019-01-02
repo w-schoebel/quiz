@@ -1,2 +1,10 @@
 - Sicherstellen das Rundenanzahl * Spielerzahl != > als Anzahl der Fragen
 - Joker, Spielstand nach jeder Runde, ...
+
+
+- give player its own class instead of nested array / matrix 			[x] 
+- no reason for roundlimit -> unessecary complication - use _questions.size() and make _questions global []
+- improve correct solution -> suggestion: correct = 'B', then you can just compare player input.equals(question.correct) []
+- db might be overkill for small amount of static questions, maybe do json file instead (json also would be easier to edit I think) []
+- show score after each answer, show if answer was correct or false []
+- add Joker class
