@@ -3,8 +3,23 @@
 
 
 - give player its own class instead of nested array / matrix 			[x] 
-- no reason for roundlimit -> unessecary complication - use _questions.size() and make _questions global []
+
+- no reason for roundlimit -> unessecary complication - use _questions.size() and make _questions global [x]
+	--> definieren wir das Rundenlimit auf _questions.size() fehlt uns der Einfluss der Spieleranzahl 
+	--> damit würde bereits bei 2 Spielern die Hälfte der Fragen fehlen
+	--> zudem wollen die Spieler vielleicht nicht immmer alle Fragen spielen sondern nur eine selbst ausgewählte Zahl
+	--> es sollte eher eine Rundenbegrenzung auf Basis der Questionssize und der Spieleranzahl eingebaut werden, die die 
+	--> mögliche Rundenzahl (Größe) beschränkt -> während die Rundenzahl weiterhin durch den Spieler ausgewählt werden kann
+	--> Erledigt -> aber so wie es in den "-->" beschrieben ist
+	
 - improve correct solution -> suggestion: correct = 'B', then you can just compare player input.equals(question.correct) []
+
 - db might be overkill for small amount of static questions, maybe do json file instead (json also would be easier to edit I think) []
+
 - show score after each answer, show if answer was correct or false []
-- add Joker class
+
+- add Joker class[x]
+- Zufall bei der Fragenauswahl anpassen damit von jedem Typ auch Fragen dran kommen -> sonst Joker sinnlos []
+- Datenbank erweitern um ein Tipp Feld bei UserInput - Fragen für den Joker []
+- Joker in die Fragen einbauen []
+- askForJoker Funktion fertigstellen []

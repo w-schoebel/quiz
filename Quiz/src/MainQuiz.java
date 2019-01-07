@@ -8,7 +8,7 @@ public class MainQuiz {
 
 	private void opening() {
 		seperatorLine();
-		System.out.println("Willkommen bei [Name].");// TODO: Name einfï¿½gen
+		System.out.println("Willkommen bei [Name].");// TODO: Name einfügen
 	}
 
 	private int initPlayerCount() {
@@ -16,7 +16,7 @@ public class MainQuiz {
 		System.out.println("Bitte geben Sie die Anzahl der Spieler ein, die an diesem Quiz teilnehmen -");
 
 		int playerCount = 0;
-		while (playerCount < 2 || playerCount > 6) {// damit nur Spieleranzahl zwischen 2 und 6 mï¿½glich
+		while (playerCount < 2 || playerCount > 6) {// damit nur Spieleranzahl zwischen 2 und 6 möglich
 			System.out.println("Spieleranzahl [2-6]: \n");
 			playerCount = getIntFromConsole();
 		}
@@ -32,11 +32,11 @@ public class MainQuiz {
 
 
 		for (int i = 0; i < playerCount; i++) {
-			System.out.println(String.format("Bitte geben Sie den Namen fï¿½r Spieler %d ein: ", i + 1));
+			System.out.println(String.format("Bitte geben Sie den Namen für Spieler %d ein: ", i + 1));
 
 			players[i] = new Player(getStringFromConsole(), 0);
 			//this is just a check for devWork
-			System.out.println(String.format("Name and score are:", players[i].name + ' ' + players[i].score));
+			//System.out.println(String.format("Name und Punktzahl: %s | %d", players[i].name, players[i].score));
 		}
 
 		return players;
@@ -45,19 +45,41 @@ public class MainQuiz {
 	private void startQuiz(Player[] players) {
 		seperatorLine();
 		
-		System.out.println("Das Quiz kann nun beginnen! Die folgenden Spieler haben sich fï¿½r das Quiz angemeldet: \n");
+		System.out.println("Das Quiz kann nun beginnen! Die folgenden Spieler haben sich für das Quiz angemeldet: \n");
 		
 		for (int i = 0; i < players.length; i++) {
 			System.out.println(String.format("Spieler %s: %s | Punktzahl: %s", i + 1, players[i].name, players[i].score));
 		}
 		seperatorLine();
+		
+		//FragenListe initialisieren um mit der Fragenanzahl arbeiten zu können
+		initQuestionList();
+		
+		int roundCount = 1;
+		int roundLimit = (int)_questions.size()/players.length;
+		System.out.println(String.format("Wie viele Runden sollen gespielt werden: 1 - %d Runden", roundLimit));
+		
+		Boolean isPossibleInput = false;
+		
+		while(!(isPossibleInput))
+		{
+			roundCount = getIntFromConsole();
+			
+			if(roundCount < 1  || roundCount > roundLimit)
+			{
+				System.out.println(String.format("Ihre Eingabe entspricht nicht der Vorgabe! "
+						+ "Geben Sie eine Zahl zwischen 1 - %d ein", roundLimit));
+			}
+			else
+			{
+				isPossibleInput = true;
+			}
+		}
 
-		//System.out.println(_questions.size());
-		//_question not in scope, need rework 
-		for (int round = 0; round <  4; round++) {
+		for (int round = 0; round < roundCount; round++) {
 			for (int currentPlayer = 0; currentPlayer < players.length; currentPlayer++) {
 				Question question = getQuestion();
-				if(showQuestion(question,  players.length + currentPlayer, players[currentPlayer].name)) {
+				if(showQuestion(question,  round * players.length + currentPlayer, players[currentPlayer].name)) {
 					increaseScore(players, currentPlayer);
 				}
 			}
@@ -65,7 +87,7 @@ public class MainQuiz {
 	}
 	
 	/**
-	 * eine zufï¿½llige Frage zurï¿½ckgeben aus Fragenliste und Fragenliste befï¿½llen
+	 * eine zufällige Frage zurückgeben aus Fragenliste und Fragenliste befüllen
 	 * @return
 	 */
 	private Question getQuestion() {
@@ -74,8 +96,7 @@ public class MainQuiz {
 		Question question = null;
 		
 		if (_questions == null) {
-			QuestionLibrary questionLibrary = new QuestionLibrary();
-			_questions = questionLibrary.getQuestions(System.getProperty("user.dir") + "\\questions.accdb");
+			initQuestionList();
 		}
 		
 		Random randomGenerator = new Random();
@@ -88,9 +109,14 @@ public class MainQuiz {
 		return question;
 	}
 	
+	private void initQuestionList() {
+			QuestionLibrary questionLibrary = new QuestionLibrary();
+			_questions = questionLibrary.getQuestions(System.getProperty("user.dir") + "\\questions.accdb");
+	}
+	
 	private Boolean showQuestion(Question question, int questionNumber, String playerName) {
 		seperatorLine();
-		System.out.println(String.format("Frage Nr. %d fï¿½r %s: ", questionNumber + 1, playerName));
+		System.out.println(String.format("Frage Nr. %d für %s: ", questionNumber + 1, playerName));
 		
 		Boolean isCorrectSolved = false;
 		
@@ -163,7 +189,7 @@ public class MainQuiz {
 		Boolean isCorrectSolved = false;
 		
 		System.out.println(String.format("Frage: %s ", question.question) + 
-				"Antworten Sie mit w (fï¿½r wahr) oder f (fï¿½r falsch)!");
+				"Antworten Sie mit w (für wahr) oder f (für falsch)!");
 		
 		String input = "";
 		
@@ -196,10 +222,10 @@ public class MainQuiz {
 		Boolean isCorrectSolved = false;
 		
 		System.out.println(String.format("Frage: %s ", question.question) + 
-				"Anworten Sie ï¿½ber die Eingabe mit der korrekten Antwort!");
+				"Anworten Sie über die Eingabe mit der korrekten Antwort!");
 		
 		String input = getStringFromConsole();
-		//trim -> Leerzeichen entfernen, damit dadurch keine Fehler entstehen kï¿½nnen (z.B. zu viele Leerzeichen zwischen Wï¿½rtern)
+		//trim -> Leerzeichen entfernen, damit dadurch keine Fehler entstehen können (z.B. zu viele Leerzeichen zwischen Wörtern)
 		if (input.trim().equalsIgnoreCase(question.answer1.trim())) {
 			isCorrectSolved = true;
 		}
@@ -217,7 +243,7 @@ public class MainQuiz {
 		MainQuiz quiz = new MainQuiz();
 		quiz.opening();
 		int playerCount = quiz.initPlayerCount();
-		Player[] players = quiz.initPlayers(playerCount); // Spieleranzahl ï¿½bergeben an initPlayer
+		Player[] players = quiz.initPlayers(playerCount); // Spieleranzahl übergeben an initPlayer
 		quiz.startQuiz(players);
 		System.out.println("Highscore: ");
 		for(int i = 0; i < players.length; i++)
@@ -255,7 +281,7 @@ public class MainQuiz {
 
 	private boolean tryParseInt(String value) {
 		try {
-			Integer.parseInt(value); // versucht den String in einen Int zu ï¿½berfï¿½hren
+			Integer.parseInt(value); // versucht den String in einen Int zu überführen
 			return true;
 		} catch (NumberFormatException e) { // wenn kein Int geparst werden kann-> Exception e
 			return false;
