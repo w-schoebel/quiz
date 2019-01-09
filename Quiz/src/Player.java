@@ -1,5 +1,5 @@
 
-public class Player {
+public class Player implements Comparable <Player>{
 	String name;
 	int score;
 	// Joker joker = new Joker; 
@@ -16,5 +16,9 @@ public class Player {
 		this.score = score;
 		return this;
 	}
-
+	@Override
+	public int compareTo(Player player) {
+		return (int)(this.score - player.score); // Vergleicht den Score des einen Elements mit dem übergebenen Score; (für Sorting)
+// definiert das Sort über die variable Score durchgeführt wird
+	}
 }

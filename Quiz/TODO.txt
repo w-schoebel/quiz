@@ -16,7 +16,7 @@
 
 - db might be overkill for small amount of static questions, maybe do json file instead (json also would be easier to edit I think) []
 
-- show score after each answer, show if answer was correct or false []
+- show score after each answer, show if answer was correct or false [x]
 
 - add Joker class[x]
 - Zufall bei der Fragenauswahl anpassen damit von jedem Typ auch Fragen dran kommen -> sonst Joker sinnlos []

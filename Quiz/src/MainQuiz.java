@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -81,7 +83,13 @@ public class MainQuiz {
 				Question question = getQuestion();
 				if(showQuestion(question,  round * players.length + currentPlayer, players[currentPlayer].name)) {
 					increaseScore(players, currentPlayer);
+					System.out.println("Die Antwort ist richtig!");
+					
 				}
+				else {
+					System.out.println("Die Antwort ist falsch!");
+				}
+			System.out.println(String.format( "Die aktuelle Punktzahl ist: %d", players[currentPlayer].score));
 			}
 		}
 	}
@@ -238,6 +246,32 @@ public class MainQuiz {
 		currentScore += 100;
 		Player player = players[currentPlayer].setScore(currentScore);
 	}
+	private void showHighscore(Player[] players){
+		seperatorLine();
+		System.out.println("Highscore: ");
+		
+		Arrays.sort(players, Collections.reverseOrder());
+		
+		boolean draw = false;
+		
+		for(int i = 0; i < players.length; i++)
+		{
+			System.out.println(String.format("%s hat %s Punkte", players[i].name, players[i].score));
+			if (i == 1 && players[i].score == players[0].score){
+				draw = true; 
+				}
+		}
+		seperatorLine(); 
+		
+		if (draw) {
+			System.out.println("Unentschieden");
+		}
+		else {
+			System.out.println(String.format("Der Gewinner ist: %s mit einer Punktzahl von %d ", players[0].name, players[0].score));
+		}
+				
+	}
+	
 	
 	public static void main(String[] args) {
 		MainQuiz quiz = new MainQuiz();
@@ -245,11 +279,7 @@ public class MainQuiz {
 		int playerCount = quiz.initPlayerCount();
 		Player[] players = quiz.initPlayers(playerCount); // Spieleranzahl übergeben an initPlayer
 		quiz.startQuiz(players);
-		System.out.println("Highscore: ");
-		for(int i = 0; i < players.length; i++)
-		{
-			System.out.println(String.format("%s hat %s Punkte", players[i].name, players[i].score));
-		}
+		quiz.showHighscore(players);
 	}
 
 	// Hilfsfunktionen
