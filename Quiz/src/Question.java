@@ -9,4 +9,5 @@ public class Question {
 	public String answer3;
 	public String answer4;
 	public int correctAnswer;
+	public String joker;
 }
