@@ -4,7 +4,7 @@ public class Player implements Comparable <Player>{
 	
 	String name;
 	int score;
-	private List<Joker> jokerList = null;
+	List<Joker> jokerList = null;
 
 	public Player(String name, int score) { 
 		this.name = name;
@@ -18,12 +18,12 @@ public class Player implements Comparable <Player>{
 	
 	public void initJokerList(int questionCount)
 	{
-		jokerList = Joker.getJoker(questionCount);
+		jokerList = JokerLibrary.getJoker(questionCount);
 	}
 	
 	@Override
 	public int compareTo(Player player) {
-		return (int)(this.score - player.score); // Vergleicht den Score des einen Elements mit dem übergebenen Score; (für Sorting)
-// definiert das Sort über die variable Score durchgeführt wird
+		return (int)(this.score - player.score); // Vergleicht den Score des einen Elements mit dem übergebenen Score (für Sorting)
+		// definiert das Sort über die variable Score durchgeführt wird
 	}
 }

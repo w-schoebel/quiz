@@ -12,14 +12,13 @@
 	--> mögliche Rundenzahl (Größe) beschränkt -> während die Rundenzahl weiterhin durch den Spieler ausgewählt werden kann
 	--> Erledigt -> aber so wie es in den "-->" beschrieben ist
 	
-- improve correct solution -> suggestion: correct = 'B', then you can just compare player input.equals(question.correct) []
-
-- db might be overkill for small amount of static questions, maybe do json file instead (json also would be easier to edit I think) []
+- improve correct solution -> suggestion: correct = 'B', then you can just compare player input.equals(question.correct) [x]
 
 - show score after each answer, show if answer was correct or false [x]
 
 - add Joker class[x]
 - Zufall bei der Fragenauswahl anpassen damit von jedem Typ auch Fragen dran kommen -> sonst Joker sinnlos []
-- Datenbank erweitern um ein Tipp Feld bei UserInput - Fragen für den Joker []
-- Joker in die Fragen einbauen []
-- askForJoker Funktion fertigstellen []
+- Datenbank erweitern um ein Tipp Feld bei UserInput - Fragen für den Joker [x]
+- Joker in die Fragen einbauen [x]
+- askForJoker Funktion fertigstellen [x]
+- für jeden Joker die Funktionalität reinprogrammieren[]

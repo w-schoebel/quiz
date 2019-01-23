@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 public class MainQuiz {
+	
+	private static List<Question> _questions = null;
 
-	private List<Question> _questions = null;
 
 	private void opening() {
 		Supportfunctions.seperatorLine();
@@ -36,9 +37,6 @@ public class MainQuiz {
 			System.out.println(String.format("Bitte geben Sie den Namen für Spieler %d ein: ", i + 1));
 
 			players[i] = new Player(Supportfunctions.getStringFromConsole(), 0);
-			// this is just a check for devWork
-			// System.out.println(String.format("Name und Punktzahl: %s | %d",
-			// players[i].name, players[i].score));
 		}
 
 		return players;
@@ -48,16 +46,16 @@ public class MainQuiz {
 		Supportfunctions.seperatorLine();
 
 		System.out.println("Das Quiz kann nun beginnen! Die folgenden Spieler haben sich für das Quiz angemeldet: \n");
-
+		
 		for (int i = 0; i < players.length; i++) {
 			System.out
 					.println(String.format("Spieler %s: %s | Punktzahl: %s", i + 1, players[i].name, players[i].score));
 		}
 		Supportfunctions.seperatorLine();
-
+		
 		// FragenListe initialisieren um mit der Fragenanzahl arbeiten zu können
-		initQuestionList();
-
+		_questions = QuestionManagement.initQuestionList();
+		
 		int roundCount = 1;
 		int roundLimit = (int) _questions.size() / players.length;
 		System.out.println(String.format("Wie viele Runden sollen gespielt werden: 1 - %d Runden", roundLimit));
@@ -76,16 +74,20 @@ public class MainQuiz {
 			}
 		}
 		
+		Supportfunctions.seperatorLine();	
+
 		initJokerForEachPlayer(players, roundCount);
+		
+		System.out.println("In jeder Runde können Sie über den Buchstaben J einen Joker verwenden. Solange bis keine Joker mehr zur Verfügung stehen.");
+		System.out.println("Für jeden Fragentyp stehen unterschiedliche Joker zur Auswahl.");
 
 		for (int round = 0; round < roundCount; round++) {
 			for (int currentPlayer = 0; currentPlayer < players.length; currentPlayer++) {
-				Question question = getQuestion();
-				if (showQuestion(question, round * players.length + currentPlayer, players[currentPlayer].name)) {
+				Question question = QuestionManagement.getQuestion();
+				if (QuestionManagement.showQuestion(question, round * players.length + currentPlayer, players[currentPlayer])) {
 					increaseScore(players, currentPlayer);
 					System.out.println("Die Antwort ist richtig!");
-				} 
-				else {
+				} else {
 					System.out.println("Die Antwort ist falsch!");
 				}
 				System.out.println(String.format("Die aktuelle Punktzahl ist: %d", players[currentPlayer].score));
@@ -93,152 +95,11 @@ public class MainQuiz {
 		}
 	}
 
-	/**
-	 * eine zufällige Frage zurückgeben aus Fragenliste und Fragenliste befüllen
-	 * 
-	 * @return
-	 */
-	private Question getQuestion() {
-		// init questions and getting single question should be in diff functions
-		// TODO init _question at start and make it global (or this._questions)
-		Question question = null;
-
-		if (_questions == null) {
-			initQuestionList();
-		}
-
-		Random randomGenerator = new Random();
-
-		if (_questions != null) {
-			question = _questions.get(randomGenerator.nextInt(_questions.size()));
-			_questions.remove(question);
-		}
-
-		return question;
-	}
-
-	private void initQuestionList() {
-		QuestionLibrary questionLibrary = new QuestionLibrary();
-		_questions = questionLibrary.getQuestions(System.getProperty("user.dir") + "\\questions.accdb");
-	}
-
-	private Boolean showQuestion(Question question, int questionNumber, String playerName) {
-		Supportfunctions.seperatorLine();
-
-		System.out.println(String.format("Frage Nr. %d für %s: ", questionNumber + 1, playerName));
-
-		Boolean isCorrectSolved = false;
-
-		switch (question.type) {
-		case multipleChoice:
-			isCorrectSolved = showMultipleChoiceQuestion(question);
-			break;
-		case trueFalseQuestion:
-			isCorrectSolved = showTrueFalseQuestion(question);
-			break;
-		case userInput:
-			isCorrectSolved = showUserInputQuestion(question);
-			break;
-		default:
-			System.out.println("Leider ist ein Problem aufgetreten. Versuchen Sie das Quiz erneut zu starten!");
-		}
-
-		return isCorrectSolved;
-	}
-
-	private Boolean showMultipleChoiceQuestion(Question question) {
-		Boolean isCorrectSolved = false;
-
-		System.out.println(String.format("Frage: %s ", question.question) + "Antworten Sie mit A, B, C oder D!");
-		System.out.println(String.format("A: %s", question.answer1) + Supportfunctions.spaces()
-				+ String.format("B: %s", question.answer2));
-		System.out.println(String.format("C: %s", question.answer3) + Supportfunctions.spaces()
-				+ String.format("D: %s", question.answer4));
-
-		String input = "";
-
-		Boolean isPossibleAnswer = false;
-		while (!isPossibleAnswer) {
-			input = Supportfunctions.getStringFromConsole();
-			if (input.equalsIgnoreCase("A") || input.equalsIgnoreCase("B") || input.equalsIgnoreCase("C")
-					|| input.equalsIgnoreCase("D")) {
-				isPossibleAnswer = true;
-			} else {
-				System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie A,B,C oder D ein!");
-			}
-		}
-
-		if (input.equalsIgnoreCase("A")) {
-			if (question.correctAnswer == "A") {
-				isCorrectSolved = true;
-			}
-		} else if (input.equalsIgnoreCase("B")) {
-			if (question.correctAnswer == "B") {
-				isCorrectSolved = true;
-			}
-		} else if (input.equalsIgnoreCase("C")) {
-			if (question.correctAnswer == "C") {
-				isCorrectSolved = true;
-			}
-		} else if (input.equalsIgnoreCase("D")) {
-			if (question.correctAnswer == "D") {
-				isCorrectSolved = true;
-			}
-		}
-
-		return isCorrectSolved;
-	}
-
-	private Boolean showTrueFalseQuestion(Question question) {
-		Boolean isCorrectSolved = false;
-
-		System.out.println(
-				String.format("Frage: %s ", question.question) + "Antworten Sie mit w (für wahr) oder f (für falsch)!");
-
-		String input = "";
-
-		Boolean isPossibleAnswer = false;
-		while (!isPossibleAnswer) {
-			input = Supportfunctions.getStringFromConsole();
-			if (input.equalsIgnoreCase("w") || input.equalsIgnoreCase("f")) {
-				isPossibleAnswer = true;
-			} else {
-				System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie w oder f!");
-			}
-		}
-
-		if (input.equalsIgnoreCase("w")) {
-			if (question.correctAnswer == "W") {
-				isCorrectSolved = true;
-			}
-		} else if (input.equalsIgnoreCase("f")) {
-			if (question.correctAnswer == "F") {
-				isCorrectSolved = true;
-			}
-		}
-		return isCorrectSolved;
-	}
-
-	private Boolean showUserInputQuestion(Question question) {
-		Boolean isCorrectSolved = false;
-
-		System.out.println(String.format("Frage: %s ", question.question)
-				+ "Anworten Sie über die Eingabe mit der korrekten Antwort!");
-
-		String input = Supportfunctions.getStringFromConsole();
-		// trim -> Leerzeichen entfernen, damit dadurch keine Fehler entstehen können
-		// (z.B. zu viele Leerzeichen zwischen Wörtern)
-		if (input.trim().equalsIgnoreCase(question.answer1.trim())) {
-			isCorrectSolved = true;
-		}
-
-		return isCorrectSolved;
-	}
-
+	
 	private void increaseScore(Player[] players, int currentPlayer) {
 		int currentScore = players[currentPlayer].score;
 		currentScore += 100;
-		Player player = players[currentPlayer].setScore(currentScore);
+		players[currentPlayer].setScore(currentScore);
 	}
 
 	private void showHighscore(Player[] players) {
@@ -255,6 +116,7 @@ public class MainQuiz {
 				draw = true;
 			}
 		}
+
 		Supportfunctions.seperatorLine();
 
 		if (draw) {
@@ -265,11 +127,9 @@ public class MainQuiz {
 		}
 
 	}
-	
-	private void initJokerForEachPlayer(Player[] players, int questionCount)
-	{
-		for(Player player : players)
-		{
+
+	private void initJokerForEachPlayer(Player[] players, int questionCount) {
+		for (Player player : players) {
 			player.initJokerList(questionCount);
 		}
 	}
