@@ -6,32 +6,27 @@ public class Joker {
 	int Count;
 	JokerType type;
 	QuestionType questionType;
-	
-	private List<Joker> jokerList = null;
-	
-	
-	public List<Joker> getJoker(int questionCount)
-	{
-		if(jokerList == null)
-		{
+
+	private static List<Joker> jokerList = null;
+
+	public static List<Joker> getJoker(int questionCount) {
+		if (jokerList == null) {
 			initJokerList((int) questionCount / 10);
 		}
 		return jokerList;
-		
-	}	
-	
-	public JokerType askForJoker(QuestionType questionType)
-	{
+
+	}
+
+	public JokerType askForJoker(QuestionType questionType) {
 		JokerType type = null;
 		String input = "";
-		
-		switch(questionType)
-		{
+
+		switch (questionType) {
 		case multipleChoice:
 			System.out.println("Möchten Sie einen 50/50 - Joker verwenden? - Geben Sie ein J ein!");
-			input= Supportfunctions.getStringFromConsole();
+			input = Supportfunctions.getStringFromConsole();
 			if (input.equalsIgnoreCase("j")) {
-			type = JokerType.fiftyFifty; 
+				type = JokerType.fiftyFifty;
 			}
 			break;
 		case userInput:
@@ -40,49 +35,50 @@ public class Joker {
 			input = Supportfunctions.getStringFromConsole();
 			if (input.equalsIgnoreCase("j")) {
 				System.out.println("Welchen Joker möchten Sie verwenden? \n "
-								+ "Wählen Sie 1, um den ersten Buchstaben zu erhalten \n"
-								+ "Wählen Sie 2, um einen Tipp zu erhalten \n"
-								+ "Wählen Sie 3, um die Anzahl der Buchstaben zu erhalten");
+						+ "Wählen Sie 1, um den ersten Buchstaben zu erhalten \n"
+						+ "Wählen Sie 2, um einen Tipp zu erhalten \n"
+						+ "Wählen Sie 3, um die Anzahl der Buchstaben zu erhalten \n"
+						+ "Wenn Sie doch keinen Joker verwenden möchten, geben Sie Z (zurück) ein!");
 				input = Supportfunctions.getStringFromConsole();
-					if (input.equalsIgnoreCase("1")) {
-						type = JokerType.firstLetter;
-						}
-						
-					else if (input.equalsIgnoreCase("2")) {
-						type = JokerType.tipp;	
-						}
-							
-					else if (input.equalsIgnoreCase("3")) {	
-						type = JokerType.letterNumber;
-						}
-					}
+				if (input.equalsIgnoreCase("1")) {
+					type = JokerType.firstLetter;
+				}
+				else if (input.equalsIgnoreCase("2")) {
+					type = JokerType.tipp;
+				}
+
+				else if (input.equalsIgnoreCase("3")) {
+					type = JokerType.letterNumber;
+				}
+				else if (input.equalsIgnoreCase("z")) {
+					;
+				}
+				break;
 			}
-			break;
 		case trueFalseQuestion:
-			System.out.println("Möchten Sie einen Tipp erhalten? Geben Sie J ein!");
+			System.out.println("Möchten Sie einen Tipp - Joker verwenden? - Geben Sie ein J ein!");
 			input = Supportfunctions.getStringFromConsole();
 			if (input.equalsIgnoreCase("j")) {
 				type = JokerType.tipp;
 			}
 			break;
 		}
-		
+
 		return type;
 	}
-	
-	private void initJokerList(int jokerCount)
+
+	private static void initJokerList(int jokerCount)
 	{
 		jokerList = new ArrayList<Joker>();
 		Joker joker = new Joker();
 		
-		//50/50 - Joker und Wortlängen-Joker gibt es bereits bei unter 10 Fragen
+		//50/50 - Joker und Wortlängen-Joker gibt es bereits bei unter 10 Fragen	
 		
 		//50/50 - Joker
 		joker.Name = "50/50 - Joker";
 		joker.Count = jokerCount == 0 ? 1 : jokerCount; //if(jokerCount == 0) joker.Count = 1; else joker.Count = jokerCount;
 		joker.type = JokerType.fiftyFifty;
 		joker.questionType = QuestionType.multipleChoice;
-		QuestionType.
 		jokerList.add(joker);
 		
 		
@@ -103,17 +99,21 @@ public class Joker {
 		joker.questionType = QuestionType.userInput;
 		jokerList.add(joker);
 		
+		
 		//gibt einen Tipp für die richtige Antwort zurück
 		joker = new Joker();
 		joker.Name = "Tipp - Joker";
 		joker.Count = jokerCount; 
 		joker.type = JokerType.tipp;
-		joker.acceptUserInput = true;
-		joker.acceptTrue
-		joker.accept = ['userInput',  'trueFalseQueston']
-		joker.questionType = QuestionType.userInput || QuestionType.trueFalseQuestion;
+		joker.questionType = QuestionType.trueFalseQuestion;
+		jokerList.add(joker);
+	
+		//gibt einen Tipp für die richtige Antwort zurück
+		joker = new Joker();
+		joker.Name = "Tipp - Joker";
+		joker.Count = jokerCount; 
+		joker.type = JokerType.tipp;
+		joker.questionType = QuestionType.userInput;
 		jokerList.add(joker);
 	}
 }
-
-
