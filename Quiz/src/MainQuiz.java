@@ -169,19 +169,19 @@ public class MainQuiz {
 		}
 
 		if (input.equalsIgnoreCase("A")) {
-			if (question.correctAnswer == 1) {
+			if (question.correctAnswer == "A") {
 				isCorrectSolved = true;
 			}
 		} else if (input.equalsIgnoreCase("B")) {
-			if (question.correctAnswer == 2) {
+			if (question.correctAnswer == "B") {
 				isCorrectSolved = true;
 			}
 		} else if (input.equalsIgnoreCase("C")) {
-			if (question.correctAnswer == 3) {
+			if (question.correctAnswer == "C") {
 				isCorrectSolved = true;
 			}
 		} else if (input.equalsIgnoreCase("D")) {
-			if (question.correctAnswer == 4) {
+			if (question.correctAnswer == "D") {
 				isCorrectSolved = true;
 			}
 		}
@@ -208,11 +208,11 @@ public class MainQuiz {
 		}
 
 		if (input.equalsIgnoreCase("w")) {
-			if (question.correctAnswer == 1) {
+			if (question.correctAnswer == "W") {
 				isCorrectSolved = true;
 			}
 		} else if (input.equalsIgnoreCase("f")) {
-			if (question.correctAnswer == 2) {
+			if (question.correctAnswer == "F") {
 				isCorrectSolved = true;
 			}
 		}

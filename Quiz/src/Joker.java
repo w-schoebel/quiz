@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Joker {
 	String Name;
@@ -66,6 +67,13 @@ public class Joker {
 
 		return type;
 	}
+
+	/*
+	 String chars = "ABCD";
+	 Random randomChar = new Random();
+	 char c = chars.charAt(randomChar.nextInt(chars.length()));
+	 System.out.println(c);
+	 */
 
 	private static void initJokerList(int jokerCount)
 	{
