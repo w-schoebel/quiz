@@ -1,13 +1,10 @@
-import java.util.Scanner;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class MainQuiz {
-	
-	private static List<Question> _questions = null;
 
+	private static List<Question> _questions = null;
 
 	private void opening() {
 		Supportfunctions.seperatorLine();
@@ -46,18 +43,40 @@ public class MainQuiz {
 		Supportfunctions.seperatorLine();
 
 		System.out.println("Das Quiz kann nun beginnen! Die folgenden Spieler haben sich für das Quiz angemeldet: \n");
-		
+
 		for (int i = 0; i < players.length; i++) {
 			System.out
 					.println(String.format("Spieler %s: %s | Punktzahl: %s", i + 1, players[i].name, players[i].score));
 		}
 		Supportfunctions.seperatorLine();
-		
+
 		// FragenListe initialisieren um mit der Fragenanzahl arbeiten zu können
 		_questions = QuestionManagement.initQuestionList();
-		
+
+		String roundChoice = "";
 		int roundCount = 1;
 		int roundLimit = (int) _questions.size() / players.length;
+
+		/*
+		 * System.out.
+		 * println("Wollen Sie eine kleine oder eine große Runde spielen? Geben Sie \"klein\" oder \"groß\" ein!"
+		 * ); // evtl. Rundenzahl dynamisch mit rein
+		 * 
+		 * Boolean isPossibleInput = false;
+		 * 
+		 * while (!(isPossibleInput)) { roundChoice =
+		 * Supportfunctions.getStringFromConsole();
+		 * 
+		 * if (roundChoice.equalsIgnoreCase("klein")) { roundCount = roundLimit / 4;
+		 * isPossibleInput = true; } else if (roundChoice.equalsIgnoreCase("groß")) {
+		 * roundCount = roundLimit; isPossibleInput = true; } else {
+		 * System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! " +
+		 * "Geben Sie \"klein\" oder \"groß\" ein!"); }
+		 * 
+		 * 
+		 * }
+		 */
+
 		System.out.println(String.format("Wie viele Runden sollen gespielt werden: 1 - %d Runden", roundLimit));
 
 		Boolean isPossibleInput = false;
@@ -73,29 +92,31 @@ public class MainQuiz {
 				isPossibleInput = true;
 			}
 		}
-		
-		Supportfunctions.seperatorLine();	
+
+		Supportfunctions.seperatorLine();
 
 		initJokerForEachPlayer(players, roundCount);
-		
-		System.out.println("In jeder Runde können Sie über den Buchstaben J einen Joker verwenden. Solange bis keine Joker mehr zur Verfügung stehen.");
+
+		System.out.println(
+				"In jeder Runde können Sie über den Buchstaben J einen Joker verwenden. Solange bis keine Joker mehr zur Verfügung stehen.");
 		System.out.println("Für jeden Fragentyp stehen unterschiedliche Joker zur Auswahl.");
 
 		for (int round = 0; round < roundCount; round++) {
 			for (int currentPlayer = 0; currentPlayer < players.length; currentPlayer++) {
-				Question question = QuestionManagement.getQuestion();
-				if (QuestionManagement.showQuestion(question, round * players.length + currentPlayer, players[currentPlayer])) {
+				Question question = QuestionManagement.getQuestion(round + 1); //da wir mit Frage 1 starten und nur damit die Modulo Rechnung bei getQuestion richtig funktioniert
+				if (QuestionManagement.showQuestion(question, round * players.length + currentPlayer,
+						players[currentPlayer])) {
 					increaseScore(players, currentPlayer);
 					System.out.println("Die Antwort ist richtig!");
 				} else {
-					System.out.println("Die Antwort ist falsch!");
+					System.out.println(String.format("Die Antwort ist falsch! Die Richtige Antwort wäre: %s",
+							question.correctAnswer));
 				}
 				System.out.println(String.format("Die aktuelle Punktzahl ist: %d", players[currentPlayer].score));
 			}
 		}
 	}
 
-	
 	private void increaseScore(Player[] players, int currentPlayer) {
 		int currentScore = players[currentPlayer].score;
 		currentScore += 100;
@@ -120,12 +141,11 @@ public class MainQuiz {
 		Supportfunctions.seperatorLine();
 
 		if (draw) {
-			System.out.println("Unentschieden");
+			System.out.println("Unentschieden \n");
 		} else {
 			System.out.println(String.format("Der Gewinner ist: %s mit einer Punktzahl von %d ", players[0].name,
 					players[0].score));
 		}
-
 	}
 
 	private void initJokerForEachPlayer(Player[] players, int questionCount) {

@@ -1,7 +1,22 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class Supportfunctions {
+	
+	public static char getRandomChar(String alphabet)
+	{
+		Random randomChar = new Random(); 
+		
+		return alphabet.charAt(randomChar.nextInt(alphabet.length()));	
+	}
+	
+	public static int getRandomInt(int range)
+	{
+		Random randomGenerator = new Random();
 
+		return randomGenerator.nextInt(range);
+	}
+	
 	public static int getIntFromConsole() {
 		boolean isInt = false;
 		int value = 0;
@@ -41,7 +56,14 @@ public class Supportfunctions {
 				"--------------------------------------------------------------------------------------------------------");
 	}
 	
-	public static String spaces() {
-		return "        ";
+	public static String spaces(int maxTextLength) {
+		String spaces = "";
+		
+		for(int i = 0; i < maxTextLength; i++)
+		{
+				spaces += " "; //für jeden Buchstaben ein Leerzeichen einfügen
+		}
+		
+		return spaces + "        "; //zusätzliche Leerzeichen für die Übersichtlichkeit
 	}
 }

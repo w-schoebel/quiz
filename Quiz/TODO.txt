@@ -17,8 +17,8 @@
 - show score after each answer, show if answer was correct or false [x]
 
 - add Joker class[x]
-- Zufall bei der Fragenauswahl anpassen damit von jedem Typ auch Fragen dran kommen -> sonst Joker sinnlos []
+- Zufall bei der Fragenauswahl anpassen damit von jedem Typ auch Fragen dran kommen -> sonst Joker sinnlos [x]
 - Datenbank erweitern um ein Tipp Feld bei UserInput - Fragen für den Joker [x]
 - Joker in die Fragen einbauen [x]
 - askForJoker Funktion fertigstellen [x]
-- für jeden Joker die Funktionalität reinprogrammieren[]
+- für jeden Joker die Funktionalität reinprogrammieren[x]

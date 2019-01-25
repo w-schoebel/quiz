@@ -67,8 +67,9 @@ public class QuestionLibrary {
                 question.answer2 = resultSet.getString(5);
                 question.answer3 = resultSet.getString(6);
                 question.answer4 = resultSet.getString(7);
-                question.joker = resultSet.getString(8);
-                question.correctAnswer = resultSet.getString(9);
+                question.correctAnswer = resultSet.getString(8);
+                question.joker = resultSet.getString(9);
+               
                 _questions.add(question);
             }
         } catch (SQLException sqlex) {

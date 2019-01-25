@@ -1,21 +1,25 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class JokerLibrary {
 
 	private static List<Joker> jokerList = null;
 
 	public static List<Joker> getJoker(int questionCount) {
-		if (jokerList == null) {
-			initJokerList((int) questionCount / 10);
-		}
+		
+		initJokerList((int) questionCount / 10);
+		
 		return jokerList;
 
 	}
 
-	public static void askForJoker(Question question, Player player, int questionNumber) {
-		Supportfunctions.seperatorLine();
+	public static Boolean askForJoker(Question question, Player player, int questionNumber) {
+		Boolean isCorrectSolved = false;
 		
+		Supportfunctions.seperatorLine();
+
 		JokerType type = null;
 
 		int i = 1;
@@ -30,15 +34,16 @@ public class JokerLibrary {
 				i++;
 			}
 		}
-		
+
 		if (i == 1) { // wenn i weiterhin 1 ist, wurde kein Joker gefunden -> sonst wäre der Wert auf
 						// 2 gestiegen (siehe i++)
 			System.out.println("Leider stehen Ihnen keine weiteren Joker für diesen Fragentyp zur Verfügung!");
 
-			QuestionManagement.showQuestion(question, questionNumber, player);
+			isCorrectSolved = QuestionManagement.showQuestion(question, questionNumber, player);
 		} else {
 			int input = -1;
-			System.out.println(String.format("Möchten Sie doch keinen Joker verwenden, so drücken Sie bitte die %d!", i));
+			System.out
+					.println(String.format("Möchten Sie doch keinen Joker verwenden, so drücken Sie bitte die %d!", i));
 
 			System.out.println(String.format("Bitte treffen Sie eine Wahl zwischen 1 und %d!", i));
 
@@ -52,32 +57,33 @@ public class JokerLibrary {
 				}
 			}
 			if (input == i) {
-				QuestionManagement.showQuestion(question, questionNumber, player);
+				isCorrectSolved = QuestionManagement.showQuestion(question, questionNumber, player);
 			} else {
-				useJoker(possibleJokers.get(input - 1));
-			}
+				isCorrectSolved = useJoker(question, questionNumber, player, possibleJokers.get(input - 1)); //input = eingegebener Wert des Spieler -> zwischen 1 und ... da Liste aber bei 0 losgeht -> -1
+			}			
 		}
+		return isCorrectSolved;
 	}
 
-	/*
-	 * 50-50 String chars = "ABCD"; Random randomChar = new Random(); int i = 0;
-	 * 
-	 * while(i<) char c = chars.charAt(randomChar.nextInt(chars.length()));
-	 * System.out.println(c);
-	 */
-
-	/*
-	 * erster Buchstabe public static char firstChar (question){
-	 * 
-	 * String s = question.answer1; char c = s.charAt(0); System.out.println(c);
-	 * return c; }
-	 */
-
-	/*
-	 * Tipp private void showJoker (Question question) {
-	 * System.out.println(String.format("Tipp: %s", question.joker)); //return
-	 * question.joker; }
-	 */
+	private static Boolean useJoker(Question question, int questionNumber, Player player, Joker joker) {
+		Boolean isCorrectSolved = false;
+		switch (question.type) {
+		case multipleChoice:
+			isCorrectSolved = QuestionManagement.showMultipleChoiceQuestionWithJoker(question, joker);
+			joker.Count -= 1;
+			break;
+		case trueFalseQuestion:
+			isCorrectSolved = QuestionManagement.showTrueFalseQuestionWithJoker(question, joker);
+			joker.Count -= 1;
+			break;
+		case userInput:
+			isCorrectSolved = QuestionManagement.showUserInputQuestionWithJoker(question, joker);
+			joker.Count -= 1;
+			break;
+		}
+		
+		return isCorrectSolved;
+	}
 
 	private static void initJokerList(int jokerCount) {
 		jokerList = new ArrayList<Joker>();
@@ -124,8 +130,5 @@ public class JokerLibrary {
 		joker.type = JokerType.tipp;
 		joker.questionType = QuestionType.userInput;
 		jokerList.add(joker);
-	}
-
-	private static void useJoker(Joker joker) {
 	}
 }
