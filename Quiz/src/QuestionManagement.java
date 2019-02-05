@@ -113,24 +113,18 @@ public class QuestionManagement {
 		maxTextLength = question.answer3.length() > maxTextLength ? question.answer3.length() : maxTextLength;
 
 		System.out.println(String.format("Frage: %s ", question.question) + "Antworten Sie mit A, B, C oder D!");
-		System.out.println(String.format("A: %s", question.answer1)
-				+ Supportfunctions.spaces(maxTextLength - question.answer1.length())
-				+ String.format("B: %s", question.answer2));
-		System.out.println(String.format("C: %s", question.answer3)
-				+ Supportfunctions.spaces(maxTextLength - question.answer3.length())
-				+ String.format("D: %s", question.answer4));
+		System.out.println(String.format("A: %s", question.answer1) + Supportfunctions.spaces(maxTextLength - question.answer1.length()) + String.format("B: %s", question.answer2));
+		System.out.println(String.format("C: %s", question.answer3) + Supportfunctions.spaces(maxTextLength - question.answer3.length()) + String.format("D: %s", question.answer4));
 	}
 
 	private static void showTrueFalseQuestion(Question question) {
-		System.out.println(
-				String.format("Frage: %s ", question.question) + "Antworten Sie mit w (f�r wahr) oder f (f�r falsch)!");
+		System.out.println( String.format("Frage: %s ", question.question) + "Antworten Sie mit w (f�r wahr) oder f (f�r falsch)!");
 
 	}
 
 	private static void showUserInputQuestion(Question question) {
 
-		System.out.println(String.format("Frage: %s ", question.question)
-				+ "Anworten Sie �ber die Eingabe mit der korrekten Antwort!");
+		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie �ber die Eingabe mit der korrekten Antwort!");
 
 	}
 

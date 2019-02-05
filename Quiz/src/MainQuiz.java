@@ -136,7 +136,9 @@ public class MainQuiz {
 		boolean draw = false;
 
 		for (int i = 0; i < players.length; i++) {
+			// replace with scoreBoard?
 			System.out.println(String.format("%s hat %s Punkte", players[i].name, players[i].score));
+			//put into function?
 			if (i == 1 && players[i].score == players[0].score) draw = true;
 			
 		}
@@ -157,9 +159,10 @@ public class MainQuiz {
 		quiz.opening();
 		int playerCount = quiz.initPlayerCount();
 		Player[] players = quiz.initPlayers(playerCount); // Spieleranzahl �bergeben an initPlayer
-		displayScoreBoard(players);
 		int roundCount = askRoundNumber(players);
+
 		initJokerForEachPlayer(players, roundCount);
+		displayScoreBoard(players);
 
 		quiz.runQuiz(players, roundCount);
 

@@ -22,7 +22,6 @@ public class JokerLibrary {
 
 		System.out.println(String.format("Bitte treffen Sie eine Wahl zwischen 1 und %d!", maxInputNumber ));
 
-		//input negativ or above possible range
 		Boolean possibleRange = false;
 		while (!possibleRange) {
 			input = Supportfunctions.getIntFromConsole();
@@ -56,7 +55,6 @@ public class JokerLibrary {
 		
 		Supportfunctions.seperatorLine();
 
-		// put into func
 		List<Joker> possibleJokers = getPossiblJokers(question, player);
 		// + 1 because + 1 is the exit
 		int maxInputNumber = possibleJokers.size() + 1;
@@ -69,15 +67,14 @@ public class JokerLibrary {
 			QuestionManagement.showQuestion(question, questionNumber, player);
 		} else {
 			//input = eingegebener Wert des Spieler -> zwischen 1 und ... da Liste aber bei 0 losgeht -> -1
-			//why is questionNumber needed as param when we already have question
 			Joker choosenJoker = possibleJokers.get(input - 1);
-			showJoker(question, questionNumber, player, choosenJoker); 
+			showJoker(question, choosenJoker); 
 		}
 		isCorrectSolved = QuestionManagement.checkAnswer(question, false);
 		return isCorrectSolved;
 	}
 
-	private static void showJoker(Question question, int questionNumber, Player player, Joker joker) {
+	private static void showJoker(Question question, Joker joker) {
 		switch (question.type) {
 		case multipleChoice:
 			QuestionManagement.showMultipleChoiceQuestionWithJoker(question, joker);
