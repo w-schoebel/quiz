@@ -38,7 +38,7 @@ public class MainQuiz {
 
 		return players;
 	}
-	private static void displayScoreBoard(Player[] players){
+	private static void showScoreBoard(Player[] players){
 		for (int i = 0; i < players.length; i++) {
 			System.out.println(String.format("Spieler %s: %s | Punktzahl: %s", i + 1, players[i].name, players[i].score));
 		}
@@ -109,8 +109,8 @@ public class MainQuiz {
 		System.out.println("Highscore: ");
 
 		Arrays.sort(players, Collections.reverseOrder());
-		// maybe put displayScoreBoard one level higher
-		displayScoreBoard(players);
+		// maybe put showScoreBoard one level higher
+		showScoreBoard(players);
 		Supportfunctions.seperatorLine();
 
 		boolean draw = isDraw(players);
@@ -162,7 +162,7 @@ public class MainQuiz {
 		int roundCount = askRoundNumber(players);
 
 		initJokerForEachPlayer(players, roundCount);
-		displayScoreBoard(players);
+		showScoreBoard(players);
 
 		// runQuiz is the main function / maybe its not needed? 
 		quiz.runQuiz(players, roundCount);
