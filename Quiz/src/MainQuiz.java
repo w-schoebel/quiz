@@ -165,6 +165,7 @@ public class MainQuiz {
 		showScoreBoard(players);
 
 		// runQuiz is the main function / maybe its not needed? 
+		// ööäöäööüüüäöüäöüäö
 		quiz.runQuiz(players, roundCount);
 
 		quiz.showHighscore(players);

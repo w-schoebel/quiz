@@ -19,7 +19,7 @@ public class JokerLibrary {
 	private static int getInput(int maxInputNumber){
 		int input = -1;
 		System.out
-				.println(String.format("MÃ¶chten Sie doch keinen Joker verwenden, so drÃ¼cken Sie bitte die %d!", maxInputNumber));
+				.println(String.format("Wollen Sie doch keinen Joker verwenden, so drücken Sie bitte die %d!", maxInputNumber));
 
 		System.out.println(String.format("Bitte treffen Sie eine Wahl zwischen 1 und %d!", maxInputNumber ));
 
@@ -44,7 +44,7 @@ public class JokerLibrary {
 		for (Joker joker : player.jokerList) {
 			if (joker.questionType.equals(question.type) && joker.Count > 0) {
 				System.out.println(String
-					.format( "MÃ¶chten Sie einen %s verwenden? - Geben Sie ein %d ein! Ihnen stehen davon noch %d StÃ¼ck zur VerfÃ¼gung!", joker.Name, i + 1, joker.Count - 1));
+					.format( "Wollen Sie einen %s verwenden? - Geben Sie ein %d ein! Ihnen stehen davon noch %d Stück zur Verfügung!", joker.Name, i + 1, joker.Count - 1));
 				possibleJokers.add(joker);
 				i++;
 			}
@@ -64,7 +64,7 @@ public class JokerLibrary {
 		int input = getInput(maxInputNumber);
 
 		if (possibleJokers.size() == 0 || input == maxInputNumber) { 
-			if(possibleJokers.size() == 0) System.out.println("Leider stehen Ihnen keine weiteren Joker fÃ¼r diesen Fragentyp zur VerfÃ¼gung!");
+			if(possibleJokers.size() == 0) System.out.println("Leider stehen Ihnen keine weiteren Joker für diesen Fragentyp zur Verfügung!");
 			System.out.println("Wiederholung der Frage:\n");
 
 			QuestionManagement.showQuestion(question, questionNumber, player);

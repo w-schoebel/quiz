@@ -90,7 +90,7 @@ public class QuestionManagement {
 		_questionNumber = questionNumber;
 		_player = player;
 
-		System.out.println(String.format("Frage Nr. %d fÃ¼r %s: ", questionNumber + 1, player.name));
+		System.out.println(String.format("Frage Nr. %d an %s: ", questionNumber + 1, player.name));
 
 		switch (question.type) {
 		case multipleChoice:
@@ -118,13 +118,13 @@ public class QuestionManagement {
 	}
 
 	private static void showTrueFalseQuestion(Question question) {
-		System.out.println( String.format("Frage: %s ", question.question) + "Antworten Sie mit w (fÃ¼r wahr) oder f (fÃ¼r falsch)!");
+		System.out.println( String.format("Frage: %s ", question.question) + "Antworten Sie mit w (für wahr) oder f (für falsch)!");
 
 	}
 
 	private static void showUserInputQuestion(Question question) {
 
-		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie Ã¼ber die Eingabe mit der korrekten Antwort!");
+		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie über die Eingabe mit der korrekten Antwort!");
 
 	}
 
@@ -187,7 +187,7 @@ public class QuestionManagement {
 
 		switch (joker.type) { // switch falls die Joker erweitert werden sollen
 		case tipp:
-			System.out.println(String.format("Frage: %s ", question.question) + "Antworten Sie mit w (fï¿½r wahr) oder f (fï¿½r falsch)!");
+			System.out.println(String.format("Frage: %s ", question.question) + "Antworten Sie mit w (für wahr) oder f (für falsch)!");
 			System.out.println(String.format("Tipp: %s", question.joker));
 			break;
 		default:
@@ -200,14 +200,14 @@ public class QuestionManagement {
 
 		Supportfunctions.seperatorLine();
 
-		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie Ã¼ber die Eingabe mit der korrekten Antwort!");
+		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie über die Eingabe mit der korrekten Antwort!");
 
 		switch (joker.type) {
 		case tipp:
 			System.out.println(String.format("Tipp: %s", question.joker));
 			break;
 		case letterNumber:
-			System.out.println(String.format("Die LÃ¶nge der Antwort betrÃ¤gt: %d", question.correctAnswer.length()));
+			System.out.println(String.format("Die Länge der Antwort beträgt: %d", question.correctAnswer.length()));
 			break;
 		case firstLetter:
 			System.out.println(String.format("Das Wort beginnt mit: %c", question.correctAnswer.charAt(0)));
