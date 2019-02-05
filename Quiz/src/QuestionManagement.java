@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -14,64 +15,49 @@ public class QuestionManagement {
 	private static Player _player = null;
 
 	/**
-	 * eine zufällige Frage zurückgeben aus Fragenliste und Fragenliste befüllen
+	 * eine zufï¿½llige Frage zurï¿½ckgeben aus Fragenliste und Fragenliste befï¿½llen
 	 * 
 	 * @return
 	 */
-	public static Question getQuestion(int questionNumber) {
+	public static Question getQuestion(List<Question> arr){
+
 		Question question = null;
+		if(arr != null || arr.size() == 0){
 
-		if (_questions == null) { // wird hier nur ausgeführt falls im Vorfeld noch keine Initialisierung der
-									// Fragen vorgenommen wurde -> sollte eigentlich nicht auftreten
-			initQuestionList();
-		}
+			// gets random question
+			question = arr.get(Supportfunctions.getRandomInt(arr.size()));
 
-		Boolean noPreferedQuestion = false;
-
-		if (questionNumber % 3 == 0) {
-			if (_questionsUserInput != null || _questionsUserInput.size() == 0) {
-
-				question = _questionsUserInput.get(Supportfunctions.getRandomInt(_questionsUserInput.size()));
-
-				_questionsUserInput.remove(question);
-				_questions.remove(question);
-			} else {
-				noPreferedQuestion = true;
-			}
-
-		} else if (questionNumber % 2 == 0) {
-			if (_questionsTrueFalse != null || _questionsTrueFalse.size() == 0) {
-
-				question = _questionsTrueFalse.get(Supportfunctions.getRandomInt(_questionsTrueFalse.size()));
-
-				_questionsTrueFalse.remove(question);
-				_questions.remove(question);
-			} else {
-				noPreferedQuestion = true;
-			}
-
+			// remove from both 
+			arr.remove(question);
+			_questions.remove(question);
+			return question;
 		} else {
-			if (_questionsMultipleChoice != null || _questionsMultipleChoice.size() == 0) {
-
-				question = _questionsMultipleChoice.get(Supportfunctions.getRandomInt(_questionsMultipleChoice.size()));
-
-				_questionsMultipleChoice.remove(question);
-				_questions.remove(question);
-			} else {
-				noPreferedQuestion = true;
-			}
-		}
-
-		if (noPreferedQuestion) {
+			// i dont understand this at all, why is this here
 			if (_questions != null) {
 
 				question = _questions.get(Supportfunctions.getRandomInt(_questions.size()));
 
 				_questions.remove(question);
 			}
+			return question;
 		}
 
-		return question;
+
+
+	}
+	// maybe rename getQuestionTypeList, not sure though
+	public static List<Question> selectQuestionType(int questionNumber) {
+
+		if (_questions == null) { // wird hier nur ausgefï¿½hrt falls im Vorfeld noch keine Initialisierung der
+									// Fragen vorgenommen wurde -> sollte eigentlich nicht auftreten
+			initQuestionList();
+		}
+
+		if (questionNumber % 3 == 0) return _questionsUserInput;  
+		else if (questionNumber % 2 == 0) return _questionsTrueFalse;  
+		else return _questionsMultipleChoice;
+		
+
 	}
 
 	public static List<Question> initQuestionList() {
@@ -98,34 +84,30 @@ public class QuestionManagement {
 		return _questions;
 	}
 
-	public static Boolean showQuestion(Question question, int questionNumber, Player player) {
+	public static void showQuestion(Question question, int questionNumber, Player player) {
 		Supportfunctions.seperatorLine();
 
 		_questionNumber = questionNumber;
 		_player = player;
 
-		System.out.println(String.format("Frage Nr. %d für %s: ", questionNumber + 1, player.name));
-
-		Boolean isCorrectSolved = false;
+		System.out.println(String.format("Frage Nr. %d fï¿½r %s: ", questionNumber + 1, player.name));
 
 		switch (question.type) {
 		case multipleChoice:
-			isCorrectSolved = showMultipleChoiceQuestion(question);
+			showMultipleChoiceQuestion(question);
 			break;
 		case trueFalseQuestion:
-			isCorrectSolved = showTrueFalseQuestion(question);
+			showTrueFalseQuestion(question);
 			break;
 		case userInput:
-			isCorrectSolved = showUserInputQuestion(question);
+			showUserInputQuestion(question);
 			break;
 		default:
 			System.out.println("Leider ist ein Problem aufgetreten. Versuchen Sie das Quiz erneut zu starten!");
 		}
-
-		return isCorrectSolved;
 	}
 
-	private static Boolean showMultipleChoiceQuestion(Question question) {
+	private static void showMultipleChoiceQuestion(Question question) {
 		int maxTextLength = 0;
 		maxTextLength = question.answer1.length() > maxTextLength ? question.answer1.length() : maxTextLength;
 		maxTextLength = question.answer3.length() > maxTextLength ? question.answer3.length() : maxTextLength;
@@ -137,26 +119,22 @@ public class QuestionManagement {
 		System.out.println(String.format("C: %s", question.answer3)
 				+ Supportfunctions.spaces(maxTextLength - question.answer3.length())
 				+ String.format("D: %s", question.answer4));
-
-		return proofAnswer(question, false);
 	}
 
-	private static Boolean showTrueFalseQuestion(Question question) {
+	private static void showTrueFalseQuestion(Question question) {
 		System.out.println(
-				String.format("Frage: %s ", question.question) + "Antworten Sie mit w (für wahr) oder f (für falsch)!");
+				String.format("Frage: %s ", question.question) + "Antworten Sie mit w (fï¿½r wahr) oder f (fï¿½r falsch)!");
 
-		return proofAnswer(question, false);
 	}
 
-	private static Boolean showUserInputQuestion(Question question) {
+	private static void showUserInputQuestion(Question question) {
 
 		System.out.println(String.format("Frage: %s ", question.question)
-				+ "Anworten Sie über die Eingabe mit der korrekten Antwort!");
+				+ "Anworten Sie ï¿½ber die Eingabe mit der korrekten Antwort!");
 
-		return proofAnswer(question, false);
 	}
 
-	public static Boolean showMultipleChoiceQuestionWithJoker(Question question, Joker joker) {
+	public static void showMultipleChoiceQuestionWithJoker(Question question, Joker joker) {
 
 		Supportfunctions.seperatorLine();
 
@@ -165,7 +143,7 @@ public class QuestionManagement {
 
 			char wrongAnswer = '\0';
 
-			while (true) { // gibt einen Buchstaben für eine falsche Antwort zurück
+			while (true) { // gibt einen Buchstaben fï¿½r eine falsche Antwort zurï¿½ck
 
 				char rndChar = Supportfunctions.getRandomChar("ABCD");
 
@@ -176,69 +154,66 @@ public class QuestionManagement {
 			}
 
 			char rightAnswer = question.correctAnswer.charAt(0); // gibt den ersten Buchstaben der korrekten Antwort
-																	// zurück -> Absicherung falls es mehrere Buchstaben
+																	// zurï¿½ck -> Absicherung falls es mehrere Buchstaben
 																	// gibt
 
-			// Antwortmöglichkeiten leer setzen aufgrund des Jokers
-			String a = String.valueOf(wrongAnswer).equalsIgnoreCase("A")
-					|| String.valueOf(rightAnswer).equalsIgnoreCase("A") ? question.answer1 : "";
-			String b = String.valueOf(wrongAnswer).equalsIgnoreCase("B")
-					|| String.valueOf(rightAnswer).equalsIgnoreCase("B") ? question.answer2 : "";
-			String c = String.valueOf(wrongAnswer).equalsIgnoreCase("C")
-					|| String.valueOf(rightAnswer).equalsIgnoreCase("C") ? question.answer3 : "";
-			String d = String.valueOf(wrongAnswer).equalsIgnoreCase("D")
-					|| String.valueOf(rightAnswer).equalsIgnoreCase("D") ? question.answer4 : "";
+			// Antwortmï¿½glichkeiten leer setzen aufgrund des Jokers
+			String a = String.valueOf(wrongAnswer)
+				.equalsIgnoreCase("A") || String.valueOf(rightAnswer).equalsIgnoreCase("A") ? question.answer1 : "";
 
-			// Textlänge berechnen für die richtigen Abstände bei dem Anzeigen der Fragen
+			String b = String.valueOf(wrongAnswer)
+				.equalsIgnoreCase("B") || String.valueOf(rightAnswer).equalsIgnoreCase("B") ? question.answer2 : "";
+
+			String c = String.valueOf(wrongAnswer)
+				.equalsIgnoreCase("C") || String.valueOf(rightAnswer).equalsIgnoreCase("C") ? question.answer3 : "";
+
+			String d = String.valueOf(wrongAnswer)
+				.equalsIgnoreCase("D") || String.valueOf(rightAnswer).equalsIgnoreCase("D") ? question.answer4 : "";
+
+			// Textlï¿½nge berechnen fï¿½r die richtigen Abstï¿½nde bei dem Anzeigen der Fragen
 			int maxTextLength = 0;
 			maxTextLength = a.length() > maxTextLength ? a.length() : maxTextLength;
 			maxTextLength = c.length() > maxTextLength ? c.length() : maxTextLength;
 
 			System.out.println(String.format("Frage: %s ", question.question) + "Geben Sie A,B,C oder D ein!");
 
-			System.out.println(String.format("A: %s", a) + Supportfunctions.spaces(maxTextLength - a.length())
-					+ String.format("B: %s", b));
+			System.out.println(String.format("A: %s", a) + Supportfunctions.spaces(maxTextLength - a.length()) + String.format("B: %s", b));
 
-			System.out.println(String.format("C: %s", c) + Supportfunctions.spaces(maxTextLength - c.length())
-					+ String.format("D: %s", d));
+			System.out.println(String.format("C: %s", c) + Supportfunctions.spaces(maxTextLength - c.length()) + String.format("D: %s", d));
 			break;
 		default:
 			break;
 		}
 
-		return proofAnswer(question, true);
 	}
 
-	public static Boolean showTrueFalseQuestionWithJoker(Question question, Joker joker) {
+	public static void showTrueFalseQuestionWithJoker(Question question, Joker joker) {
 
 		Supportfunctions.seperatorLine();
 
 		switch (joker.type) { // switch falls die Joker erweitert werden sollen
 		case tipp:
-			System.out.println(String.format("Frage: %s ", question.question)
-					+ "Antworten Sie mit w (für wahr) oder f (für falsch)!");
+			System.out.println(String.format("Frage: %s ", question.question) + "Antworten Sie mit w (fï¿½r wahr) oder f (fï¿½r falsch)!");
 			System.out.println(String.format("Tipp: %s", question.joker));
 			break;
 		default:
 			break;
 		}
 
-		return proofAnswer(question, true);
 	}
 
-	public static Boolean showUserInputQuestionWithJoker(Question question, Joker joker) {
+	public static void showUserInputQuestionWithJoker(Question question, Joker joker) {
 
 		Supportfunctions.seperatorLine();
 
-		System.out.println(String.format("Frage: %s ", question.question)
-				+ "Anworten Sie über die Eingabe mit der korrekten Antwort!");
+		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie ï¿½ber die Eingabe mit der korrekten Antwort!");
 
 		switch (joker.type) {
 		case tipp:
 			System.out.println(String.format("Tipp: %s", question.joker));
 			break;
 		case letterNumber:
-			System.out.println(String.format("Die Länge der Antwort beträgt: %d", question.correctAnswer.length()));
+			System.out.println(String.format("Die Lï¿½nge der Antwort betrï¿½gt: %d", question.correctAnswer.length()));
 			break;
 		case firstLetter:
 			System.out.println(String.format("Das Wort beginnt mit: %c", question.correctAnswer.charAt(0)));
@@ -247,33 +222,41 @@ public class QuestionManagement {
 			break;
 		}
 
-		return proofAnswer(question, true);
 	}
 
-	private static Boolean proofAnswer(Question question, Boolean jokerAlreadyUsed) {
+	//this still needs refactoring
+	public static Boolean checkAnswer(Question question, Boolean jokerAlreadyUsed) {
 
 		Boolean isCorrectSolved = false;
 		Boolean isPossibleAnswer = false;
 		String input = "";
 
+		
+		// it checks both if user input is valid and if input is correct. needs to be split up into functions
 		switch (question.type) {
 		case multipleChoice:
 
 			while (!isPossibleAnswer) {
 				input = Supportfunctions.getStringFromConsole();
-				if (input.equalsIgnoreCase("A") || input.equalsIgnoreCase("B") || input.equalsIgnoreCase("C")
-						|| input.equalsIgnoreCase("D") || (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
+				//String[] values = {"a","b","c","d"};
+				//input = input.toLowerCase();
+				//boolean contains = Arrays.stream(values).anyMatch(input::equals);
+				//System.out.println(contains);
+
+				// would be much better if this logic was in the db
+				if (	input.equalsIgnoreCase("A") 
+						|| input.equalsIgnoreCase("B") 
+						|| input.equalsIgnoreCase("C")
+						|| input.equalsIgnoreCase("D") 
+						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
 					isPossibleAnswer = true;
 				} else {
 					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie A,B,C oder D ein!");
 				}
 			}
 
-			if (input.equalsIgnoreCase("j")) {
-				isCorrectSolved = JokerLibrary.askForJoker(question, _player, _questionNumber);
-			} else if (input.equalsIgnoreCase(question.correctAnswer)) {
-				isCorrectSolved = true;
-			}
+			if (input.equalsIgnoreCase("j")) isCorrectSolved = JokerLibrary.askForJoker(question, _player, _questionNumber);
+			else if (input.equalsIgnoreCase(question.correctAnswer)) isCorrectSolved = true;
 
 			break;
 
@@ -281,7 +264,8 @@ public class QuestionManagement {
 
 			while (!isPossibleAnswer) {
 				input = Supportfunctions.getStringFromConsole();
-				if (input.equalsIgnoreCase("w") || input.equalsIgnoreCase("f")
+				if (input.equalsIgnoreCase("w") 
+						|| input.equalsIgnoreCase("f")
 						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
 					isPossibleAnswer = true;
 				} else {
@@ -298,8 +282,8 @@ public class QuestionManagement {
 		case userInput:
 
 			input = Supportfunctions.getStringFromConsole();
-			// trim -> Leerzeichen entfernen, damit dadurch keine Fehler entstehen können
-			// (z.B. zu viele Leerzeichen zwischen Wörtern)
+			// trim -> Leerzeichen entfernen, damit dadurch keine Fehler entstehen kï¿½nnen
+			// (z.B. zu viele Leerzeichen zwischen Wï¿½rtern)
 
 			if (!jokerAlreadyUsed && input.equalsIgnoreCase("J")) {
 				isCorrectSolved = JokerLibrary.askForJoker(question, _player, _questionNumber);

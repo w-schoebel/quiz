@@ -8,7 +8,7 @@ public class MainQuiz {
 
 	private void opening() {
 		Supportfunctions.seperatorLine();
-		System.out.println("Willkommen bei [Name].");// TODO: Name einfügen
+		System.out.println("Willkommen bei [Name].");// TODO: Name einfï¿½gen
 	}
 
 	private int initPlayerCount() {
@@ -16,7 +16,7 @@ public class MainQuiz {
 		System.out.println("Bitte geben Sie die Anzahl der Spieler ein, die an diesem Quiz teilnehmen -");
 
 		int playerCount = 0;
-		while (playerCount < 2 || playerCount > 6) {// damit nur Spieleranzahl zwischen 2 und 6 möglich
+		while (playerCount < 2 || playerCount > 6) {// damit nur Spieleranzahl zwischen 2 und 6 mï¿½glich
 			System.out.println("Spieleranzahl [2-6]: \n");
 			playerCount = Supportfunctions.getIntFromConsole();
 		}
@@ -31,35 +31,29 @@ public class MainQuiz {
 		Player[] players = new Player[playerCount];
 
 		for (int i = 0; i < playerCount; i++) {
-			System.out.println(String.format("Bitte geben Sie den Namen für Spieler %d ein: ", i + 1));
+			System.out.println(String.format("Bitte geben Sie den Namen fï¿½r Spieler %d ein: ", i + 1));
 
 			players[i] = new Player(Supportfunctions.getStringFromConsole(), 0);
 		}
 
 		return players;
 	}
-
-	private void startQuiz(Player[] players) {
-		Supportfunctions.seperatorLine();
-
-		System.out.println("Das Quiz kann nun beginnen! Die folgenden Spieler haben sich für das Quiz angemeldet: \n");
-
+	private static void displayScoreBoard(Player[] players){
 		for (int i = 0; i < players.length; i++) {
-			System.out
-					.println(String.format("Spieler %s: %s | Punktzahl: %s", i + 1, players[i].name, players[i].score));
+			System.out.println(String.format("Spieler %s: %s | Punktzahl: %s", i + 1, players[i].name, players[i].score));
 		}
-		Supportfunctions.seperatorLine();
-
-		// FragenListe initialisieren um mit der Fragenanzahl arbeiten zu können
+	}
+	private static int askRoundNumber(Player[] players){
+		// FragenListe initialisieren um mit der Fragenanzahl arbeiten zu kï¿½nnen
 		_questions = QuestionManagement.initQuestionList();
-
+		// set round limit
 		String roundChoice = "";
 		int roundCount = 1;
 		int roundLimit = (int) _questions.size() / players.length;
 
 		/*
 		 * System.out.
-		 * println("Wollen Sie eine kleine oder eine große Runde spielen? Geben Sie \"klein\" oder \"groß\" ein!"
+		 * println("Wollen Sie eine kleine oder eine groï¿½e Runde spielen? Geben Sie \"klein\" oder \"groï¿½\" ein!"
 		 * ); // evtl. Rundenzahl dynamisch mit rein
 		 * 
 		 * Boolean isPossibleInput = false;
@@ -68,10 +62,10 @@ public class MainQuiz {
 		 * Supportfunctions.getStringFromConsole();
 		 * 
 		 * if (roundChoice.equalsIgnoreCase("klein")) { roundCount = roundLimit / 4;
-		 * isPossibleInput = true; } else if (roundChoice.equalsIgnoreCase("groß")) {
+		 * isPossibleInput = true; } else if (roundChoice.equalsIgnoreCase("groï¿½")) {
 		 * roundCount = roundLimit; isPossibleInput = true; } else {
 		 * System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! " +
-		 * "Geben Sie \"klein\" oder \"groß\" ein!"); }
+		 * "Geben Sie \"klein\" oder \"groï¿½\" ein!"); }
 		 * 
 		 * 
 		 * }
@@ -81,38 +75,47 @@ public class MainQuiz {
 
 		Boolean isPossibleInput = false;
 
-		while (!(isPossibleInput)) {
+		while (!isPossibleInput) {
 			roundCount = Supportfunctions.getIntFromConsole();
 
 			if (roundCount < 1 || roundCount > roundLimit) {
-				System.out.println(String.format(
-						"Ihre Eingabe entspricht nicht der Vorgabe! " + "Geben Sie eine Zahl zwischen 1 - %d ein",
-						roundLimit));
+				System.out.println(String.format( "Ihre Eingabe entspricht nicht der Vorgabe! " + "Geben Sie eine Zahl zwischen 1 - %d ein", roundLimit));
 			} else {
 				isPossibleInput = true;
 			}
 		}
+		return roundCount;
+
+	}
+
+	private void runQuiz(Player[] players, int roundCount) {
+		Supportfunctions.seperatorLine();
+
+		System.out.println("Das Quiz kann nun beginnen! Die folgenden Spieler haben sich fï¿½r das Quiz angemeldet: \n");
+
 
 		Supportfunctions.seperatorLine();
 
-		initJokerForEachPlayer(players, roundCount);
 
-		System.out.println(
-				"In jeder Runde können Sie über den Buchstaben J einen Joker verwenden. Solange bis keine Joker mehr zur Verfügung stehen.");
-		System.out.println("Für jeden Fragentyp stehen unterschiedliche Joker zur Auswahl.");
+		System.out.println("In jeder Runde kï¿½nnen Sie ï¿½ber den Buchstaben J einen Joker verwenden. Solange bis keine Joker mehr zur Verfï¿½gung stehen.");
+		System.out.println("Fï¿½r jeden Fragentyp stehen unterschiedliche Joker zur Auswahl.");
 
-		for (int round = 0; round < roundCount; round++) {
-			for (int currentPlayer = 0; currentPlayer < players.length; currentPlayer++) {
-				Question question = QuestionManagement.getQuestion(round + 1); //da wir mit Frage 1 starten und nur damit die Modulo Rechnung bei getQuestion richtig funktioniert
-				if (QuestionManagement.showQuestion(question, round * players.length + currentPlayer,
-						players[currentPlayer])) {
-					increaseScore(players, currentPlayer);
+		// vital part of programm here
+		for (int roundIndex = 0; roundIndex < roundCount; roundIndex++) {
+			for (int currentPlayerIndex = 0; currentPlayerIndex < players.length; currentPlayerIndex++) {
+				List<Question> questionTypeList = QuestionManagement.selectQuestionType(roundIndex + 1); //da wir mit Frage 1 starten und nur damit die Modulo Rechnung bei getQuestion richtig funktioniert
+				Question question = QuestionManagement.getQuestion(questionTypeList); //da wir mit Frage 1 starten und nur damit die Modulo Rechnung bei getQuestion richtig funktioniert
+				//showQuqestion takes question, questionNumber and player
+				int questionNumber = roundIndex * players.length + currentPlayerIndex;
+				QuestionManagement.showQuestion(question, questionNumber, players[currentPlayerIndex]);
+				Boolean isCorrectSolved = QuestionManagement.checkAnswer(question, false);
+				if (isCorrectSolved) {
+					increaseScore(players, currentPlayerIndex);
 					System.out.println("Die Antwort ist richtig!");
 				} else {
-					System.out.println(String.format("Die Antwort ist falsch! Die Richtige Antwort wäre: %s",
-							question.correctAnswer));
+					System.out.println(String.format("Die Antwort ist falsch! Die Richtige Antwort wï¿½re: %s", question.correctAnswer));
 				}
-				System.out.println(String.format("Die aktuelle Punktzahl ist: %d", players[currentPlayer].score));
+				System.out.println(String.format("Die aktuelle Punktzahl ist: %d", players[currentPlayerIndex].score));
 			}
 		}
 	}
@@ -123,6 +126,7 @@ public class MainQuiz {
 		players[currentPlayer].setScore(currentScore);
 	}
 
+	//looks for winner
 	private void showHighscore(Player[] players) {
 		Supportfunctions.seperatorLine();
 		System.out.println("Highscore: ");
@@ -133,33 +137,32 @@ public class MainQuiz {
 
 		for (int i = 0; i < players.length; i++) {
 			System.out.println(String.format("%s hat %s Punkte", players[i].name, players[i].score));
-			if (i == 1 && players[i].score == players[0].score) {
-				draw = true;
-			}
+			if (i == 1 && players[i].score == players[0].score) draw = true;
+			
 		}
 
 		Supportfunctions.seperatorLine();
 
-		if (draw) {
-			System.out.println("Unentschieden \n");
-		} else {
-			System.out.println(String.format("Der Gewinner ist: %s mit einer Punktzahl von %d ", players[0].name,
-					players[0].score));
-		}
+		if (draw) System.out.println("Unentschieden \n");
+		else System.out.println(String.format("Der Gewinner ist: %s mit einer Punktzahl von %d ", players[0].name, players[0].score));
+		
 	}
 
-	private void initJokerForEachPlayer(Player[] players, int questionCount) {
-		for (Player player : players) {
-			player.initJokerList(questionCount);
-		}
+	private static void initJokerForEachPlayer(Player[] players, int questionCount) {
+		for (Player player : players) player.initJokerList(questionCount);
 	}
 
 	public static void main(String[] args) {
 		MainQuiz quiz = new MainQuiz();
 		quiz.opening();
 		int playerCount = quiz.initPlayerCount();
-		Player[] players = quiz.initPlayers(playerCount); // Spieleranzahl übergeben an initPlayer
-		quiz.startQuiz(players);
+		Player[] players = quiz.initPlayers(playerCount); // Spieleranzahl ï¿½bergeben an initPlayer
+		displayScoreBoard(players);
+		int roundCount = askRoundNumber(players);
+		initJokerForEachPlayer(players, roundCount);
+
+		quiz.runQuiz(players, roundCount);
+
 		quiz.showHighscore(players);
 	}
 }

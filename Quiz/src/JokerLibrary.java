@@ -15,81 +15,91 @@ public class JokerLibrary {
 
 	}
 
-	public static Boolean askForJoker(Question question, Player player, int questionNumber) {
-		Boolean isCorrectSolved = false;
-		
-		Supportfunctions.seperatorLine();
+	private static int getInput(int maxInputNumber){
+		int input = -1;
+		System.out
+				.println(String.format("Mï¿½chten Sie doch keinen Joker verwenden, so drï¿½cken Sie bitte die %d!", maxInputNumber));
 
-		JokerType type = null;
+		System.out.println(String.format("Bitte treffen Sie eine Wahl zwischen 1 und %d!", maxInputNumber ));
 
-		int i = 1;
+		//input negativ or above possible range
+		Boolean possibleRange = false;
+		while (!possibleRange) {
+			input = Supportfunctions.getIntFromConsole();
+			possibleRange = (input >= 0 && input <= maxInputNumber );
+
+			if (!possibleRange) {
+				System.out.println(String
+					.format( "Ihre Eingabe %d entspricht nicht den Vorgaben! Bitte geben Sie eine Zahl zwischen 1 und %d ein!", input, maxInputNumber));
+			}
+		}
+		return input;
+
+	}
+	private static List<Joker> getPossiblJokers(Question question,Player player){
 		List<Joker> possibleJokers = new ArrayList<Joker>();
 
+		int i = 0;
 		for (Joker joker : player.jokerList) {
 			if (joker.questionType.equals(question.type) && joker.Count > 0) {
-				System.out.println(String.format(
-						"Möchten Sie einen %s verwenden? - Geben Sie ein %d ein! Ihnen stehen davon noch %d Stück zur Verfügung!",
-						joker.Name, i, joker.Count));
+				System.out.println(String
+					.format( "Mï¿½chten Sie einen %s verwenden? - Geben Sie ein %d ein! Ihnen stehen davon noch %d Stï¿½ck zur Verfï¿½gung!", joker.Name, i + 1, joker.Count - 1));
 				possibleJokers.add(joker);
 				i++;
 			}
 		}
 
-		if (i == 1) { // wenn i weiterhin 1 ist, wurde kein Joker gefunden -> sonst wäre der Wert auf
-						// 2 gestiegen (siehe i++)
-			System.out.println("Leider stehen Ihnen keine weiteren Joker für diesen Fragentyp zur Verfügung!");
+		return possibleJokers;
+	}
+	public static Boolean askForJoker(Question question, Player player, int questionNumber) {
+		Boolean isCorrectSolved = false;
+		
+		Supportfunctions.seperatorLine();
 
-			isCorrectSolved = QuestionManagement.showQuestion(question, questionNumber, player);
+		// put into func
+		List<Joker> possibleJokers = getPossiblJokers(question, player);
+		// + 1 because + 1 is the exit
+		int maxInputNumber = possibleJokers.size() + 1;
+		int input = getInput(maxInputNumber);
+
+		if (possibleJokers.size() == 0 || input == maxInputNumber) { 
+			if(possibleJokers.size() == 0) System.out.println("Leider stehen Ihnen keine weiteren Joker fï¿½r diesen Fragentyp zur Verfï¿½gung!");
+			System.out.println("Wiederholung der Frage:\n");
+
+			QuestionManagement.showQuestion(question, questionNumber, player);
 		} else {
-			int input = -1;
-			System.out
-					.println(String.format("Möchten Sie doch keinen Joker verwenden, so drücken Sie bitte die %d!", i));
-
-			System.out.println(String.format("Bitte treffen Sie eine Wahl zwischen 1 und %d!", i));
-
-			while (input <= 0 || input > i) {
-				input = Supportfunctions.getIntFromConsole();
-
-				if (input > i || input <= 0) {
-					System.out.println(String.format(
-							"Ihre Eingabe entspricht nicht den Vorgaben! Bitte geben Sie eine Zahl zwischen 1 und %d ein!",
-							i));
-				}
-			}
-			if (input == i) {
-				isCorrectSolved = QuestionManagement.showQuestion(question, questionNumber, player);
-			} else {
-				isCorrectSolved = useJoker(question, questionNumber, player, possibleJokers.get(input - 1)); //input = eingegebener Wert des Spieler -> zwischen 1 und ... da Liste aber bei 0 losgeht -> -1
-			}			
+			//input = eingegebener Wert des Spieler -> zwischen 1 und ... da Liste aber bei 0 losgeht -> -1
+			//why is questionNumber needed as param when we already have question
+			Joker choosenJoker = possibleJokers.get(input - 1);
+			showJoker(question, questionNumber, player, choosenJoker); 
 		}
+		isCorrectSolved = QuestionManagement.checkAnswer(question, false);
 		return isCorrectSolved;
 	}
 
-	private static Boolean useJoker(Question question, int questionNumber, Player player, Joker joker) {
-		Boolean isCorrectSolved = false;
+	private static void showJoker(Question question, int questionNumber, Player player, Joker joker) {
 		switch (question.type) {
 		case multipleChoice:
-			isCorrectSolved = QuestionManagement.showMultipleChoiceQuestionWithJoker(question, joker);
+			QuestionManagement.showMultipleChoiceQuestionWithJoker(question, joker);
 			joker.Count -= 1;
 			break;
 		case trueFalseQuestion:
-			isCorrectSolved = QuestionManagement.showTrueFalseQuestionWithJoker(question, joker);
+			QuestionManagement.showTrueFalseQuestionWithJoker(question, joker);
 			joker.Count -= 1;
 			break;
 		case userInput:
-			isCorrectSolved = QuestionManagement.showUserInputQuestionWithJoker(question, joker);
+			QuestionManagement.showUserInputQuestionWithJoker(question, joker);
 			joker.Count -= 1;
 			break;
 		}
 		
-		return isCorrectSolved;
 	}
 
 	private static void initJokerList(int jokerCount) {
 		jokerList = new ArrayList<Joker>();
 		Joker joker = new Joker();
 
-		// 50/50 - Joker und Wortlängen-Joker gibt es bereits bei unter 10 Fragen
+		// 50/50 - Joker und Wortlï¿½ngen-Joker gibt es bereits bei unter 10 Fragen
 
 		// 50/50 - Joker
 		joker.Name = "50/50 - Joker";
@@ -99,15 +109,15 @@ public class JokerLibrary {
 		joker.questionType = QuestionType.multipleChoice;
 		jokerList.add(joker);
 
-		// gibt die Wortlänge für die richtige Antwort zurück
+		// gibt die Wortlï¿½nge fï¿½r die richtige Antwort zurï¿½ck
 		joker = new Joker();
-		joker.Name = "Wortlängen - Joker";
+		joker.Name = "Wortlï¿½ngen - Joker";
 		joker.Count = jokerCount == 0 ? 1 : jokerCount;
 		joker.type = JokerType.letterNumber;
 		joker.questionType = QuestionType.userInput;
 		jokerList.add(joker);
 
-		// gibt den ersten Buchstaben der richtigen Antwort zurück
+		// gibt den ersten Buchstaben der richtigen Antwort zurï¿½ck
 		joker = new Joker();
 		joker.Name = "Erster - Buchstaben - Joker";
 		joker.Count = jokerCount;
@@ -115,7 +125,7 @@ public class JokerLibrary {
 		joker.questionType = QuestionType.userInput;
 		jokerList.add(joker);
 
-		// gibt einen Tipp für die richtige Antwort zurück
+		// gibt einen Tipp fï¿½r die richtige Antwort zurï¿½ck
 		joker = new Joker();
 		joker.Name = "Tipp - Joker";
 		joker.Count = jokerCount;
@@ -123,7 +133,7 @@ public class JokerLibrary {
 		joker.questionType = QuestionType.trueFalseQuestion;
 		jokerList.add(joker);
 
-		// gibt einen Tipp für die richtige Antwort zurück
+		// gibt einen Tipp fï¿½r die richtige Antwort zurï¿½ck
 		joker = new Joker();
 		joker.Name = "Tipp - Joker";
 		joker.Count = jokerCount;

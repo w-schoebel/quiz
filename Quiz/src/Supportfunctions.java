@@ -3,15 +3,13 @@ import java.util.Scanner;
 
 public class Supportfunctions {
 	
-	public static char getRandomChar(String alphabet)
-	{
+	public static char getRandomChar(String alphabet) {
 		Random randomChar = new Random(); 
 		
 		return alphabet.charAt(randomChar.nextInt(alphabet.length()));	
 	}
 	
-	public static int getRandomInt(int range)
-	{
+	public static int getRandomInt(int range) {
 		Random randomGenerator = new Random();
 
 		return randomGenerator.nextInt(range);
@@ -44,7 +42,7 @@ public class Supportfunctions {
 
 	public static boolean tryParseInt(String value) {
 		try {
-			Integer.parseInt(value); // versucht den String in einen Int zu überführen
+			Integer.parseInt(value); // versucht den String in einen Int zu ï¿½berfï¿½hren
 			return true;
 		} catch (NumberFormatException e) { // wenn kein Int geparst werden kann-> Exception e
 			return false;
@@ -61,9 +59,9 @@ public class Supportfunctions {
 		
 		for(int i = 0; i < maxTextLength; i++)
 		{
-				spaces += " "; //für jeden Buchstaben ein Leerzeichen einfügen
+				spaces += " "; //fï¿½r jeden Buchstaben ein Leerzeichen einfï¿½gen
 		}
 		
-		return spaces + "        "; //zusätzliche Leerzeichen für die Übersichtlichkeit
+		return spaces + "        "; //zusï¿½tzliche Leerzeichen fï¿½r die ï¿½bersichtlichkeit
 	}
 }
