@@ -90,7 +90,7 @@ public class QuestionManagement {
 		_questionNumber = questionNumber;
 		_player = player;
 
-		System.out.println(String.format("Frage Nr. %d f�r %s: ", questionNumber + 1, player.name));
+		System.out.println(String.format("Frage Nr. %d für %s: ", questionNumber + 1, player.name));
 
 		switch (question.type) {
 		case multipleChoice:
@@ -118,13 +118,13 @@ public class QuestionManagement {
 	}
 
 	private static void showTrueFalseQuestion(Question question) {
-		System.out.println( String.format("Frage: %s ", question.question) + "Antworten Sie mit w (f�r wahr) oder f (f�r falsch)!");
+		System.out.println( String.format("Frage: %s ", question.question) + "Antworten Sie mit w (für wahr) oder f (für falsch)!");
 
 	}
 
 	private static void showUserInputQuestion(Question question) {
 
-		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie �ber die Eingabe mit der korrekten Antwort!");
+		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie über die Eingabe mit der korrekten Antwort!");
 
 	}
 
@@ -200,14 +200,14 @@ public class QuestionManagement {
 
 		Supportfunctions.seperatorLine();
 
-		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie �ber die Eingabe mit der korrekten Antwort!");
+		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie über die Eingabe mit der korrekten Antwort!");
 
 		switch (joker.type) {
 		case tipp:
 			System.out.println(String.format("Tipp: %s", question.joker));
 			break;
 		case letterNumber:
-			System.out.println(String.format("Die L�nge der Antwort betr�gt: %d", question.correctAnswer.length()));
+			System.out.println(String.format("Die Lönge der Antwort beträgt: %d", question.correctAnswer.length()));
 			break;
 		case firstLetter:
 			System.out.println(String.format("Das Wort beginnt mit: %c", question.correctAnswer.charAt(0)));

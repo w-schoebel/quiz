@@ -31,7 +31,7 @@ public class MainQuiz {
 		Player[] players = new Player[playerCount];
 
 		for (int i = 0; i < playerCount; i++) {
-			System.out.println(String.format("Bitte geben Sie den Namen f�r Spieler %d ein: ", i + 1));
+			System.out.println(String.format("Bitte geben Sie den Namen für Spieler %d ein: ", i + 1));
 
 			players[i] = new Player(Supportfunctions.getStringFromConsole(), 0);
 		}
@@ -125,14 +125,14 @@ public class MainQuiz {
 	private void runQuiz(Player[] players, int roundCount) {
 		Supportfunctions.seperatorLine();
 
-		System.out.println("Das Quiz kann nun beginnen! Die folgenden Spieler haben sich f�r das Quiz angemeldet: \n");
+		System.out.println("Das Quiz kann nun beginnen! Die folgenden Spieler haben sich für das Quiz angemeldet: \n");
 
 
 		Supportfunctions.seperatorLine();
 
 
-		System.out.println("In jeder Runde k�nnen Sie �ber den Buchstaben J einen Joker verwenden. Solange bis keine Joker mehr zur Verf�gung stehen.");
-		System.out.println("F�r jeden Fragentyp stehen unterschiedliche Joker zur Auswahl.");
+		System.out.println("In jeder Runde können Sie über den Buchstaben J einen Joker verwenden. Solange bis keine Joker mehr zur Verfügung stehen.");
+		System.out.println("Für jeden Fragentyp stehen unterschiedliche Joker zur Auswahl.");
 
 		// vital part of programm here
 		for (int roundIndex = 0; roundIndex < roundCount; roundIndex++) {
@@ -147,7 +147,7 @@ public class MainQuiz {
 					increaseScore(players, currentPlayerIndex);
 					System.out.println("Die Antwort ist richtig!");
 				} else {
-					System.out.println(String.format("Die Antwort ist falsch! Die Richtige Antwort w�re: %s", question.correctAnswer));
+					System.out.println(String.format("Die Antwort ist falsch! Die Richtige Antwort wäre: %s", question.correctAnswer));
 				}
 				System.out.println(String.format("Die aktuelle Punktzahl ist: %d", players[currentPlayerIndex].score));
 			}

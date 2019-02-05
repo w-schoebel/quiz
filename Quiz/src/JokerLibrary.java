@@ -15,10 +15,11 @@ public class JokerLibrary {
 
 	}
 
+	// get joker number from user
 	private static int getInput(int maxInputNumber){
 		int input = -1;
 		System.out
-				.println(String.format("M�chten Sie doch keinen Joker verwenden, so dr�cken Sie bitte die %d!", maxInputNumber));
+				.println(String.format("Möchten Sie doch keinen Joker verwenden, so drücken Sie bitte die %d!", maxInputNumber));
 
 		System.out.println(String.format("Bitte treffen Sie eine Wahl zwischen 1 und %d!", maxInputNumber ));
 
@@ -35,6 +36,7 @@ public class JokerLibrary {
 		return input;
 
 	}
+	// shows user availble jokers and returns list of them 
 	private static List<Joker> getPossiblJokers(Question question,Player player){
 		List<Joker> possibleJokers = new ArrayList<Joker>();
 
@@ -42,7 +44,7 @@ public class JokerLibrary {
 		for (Joker joker : player.jokerList) {
 			if (joker.questionType.equals(question.type) && joker.Count > 0) {
 				System.out.println(String
-					.format( "M�chten Sie einen %s verwenden? - Geben Sie ein %d ein! Ihnen stehen davon noch %d St�ck zur Verf�gung!", joker.Name, i + 1, joker.Count - 1));
+					.format( "Möchten Sie einen %s verwenden? - Geben Sie ein %d ein! Ihnen stehen davon noch %d Stück zur Verfügung!", joker.Name, i + 1, joker.Count - 1));
 				possibleJokers.add(joker);
 				i++;
 			}
@@ -50,6 +52,7 @@ public class JokerLibrary {
 
 		return possibleJokers;
 	}
+	
 	public static Boolean askForJoker(Question question, Player player, int questionNumber) {
 		Boolean isCorrectSolved = false;
 		
@@ -61,7 +64,7 @@ public class JokerLibrary {
 		int input = getInput(maxInputNumber);
 
 		if (possibleJokers.size() == 0 || input == maxInputNumber) { 
-			if(possibleJokers.size() == 0) System.out.println("Leider stehen Ihnen keine weiteren Joker f�r diesen Fragentyp zur Verf�gung!");
+			if(possibleJokers.size() == 0) System.out.println("Leider stehen Ihnen keine weiteren Joker für diesen Fragentyp zur Verfügung!");
 			System.out.println("Wiederholung der Frage:\n");
 
 			QuestionManagement.showQuestion(question, questionNumber, player);
@@ -70,9 +73,11 @@ public class JokerLibrary {
 			Joker choosenJoker = possibleJokers.get(input - 1);
 			showJoker(question, choosenJoker); 
 		}
+		//this should be removed soon
 		isCorrectSolved = QuestionManagement.checkAnswer(question, false);
 		return isCorrectSolved;
 	}
+
 
 	private static void showJoker(Question question, Joker joker) {
 		switch (question.type) {
@@ -108,7 +113,7 @@ public class JokerLibrary {
 
 		// gibt die Wortl�nge f�r die richtige Antwort zur�ck
 		joker = new Joker();
-		joker.Name = "Wortl�ngen - Joker";
+		joker.Name = "Wortlängen - Joker";
 		joker.Count = jokerCount == 0 ? 1 : jokerCount;
 		joker.type = JokerType.letterNumber;
 		joker.questionType = QuestionType.userInput;
