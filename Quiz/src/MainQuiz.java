@@ -88,6 +88,40 @@ public class MainQuiz {
 
 	}
 
+
+	private void increaseScore(Player[] players, int currentPlayer) {
+		int currentScore = players[currentPlayer].score;
+		currentScore += 100;
+		players[currentPlayer].setScore(currentScore);
+	}
+	private boolean isDraw(Player[] players) {
+		boolean draw = false;
+		for (int i = 0; i < players.length; i++) {
+			if (i == 1 && players[i].score == players[0].score) draw = true;
+		}
+		return draw;
+		
+	}
+
+	//looks for winner
+	private void showHighscore(Player[] players) {
+		Supportfunctions.seperatorLine();
+		System.out.println("Highscore: ");
+
+		Arrays.sort(players, Collections.reverseOrder());
+		// maybe put displayScoreBoard one level higher
+		displayScoreBoard(players);
+		Supportfunctions.seperatorLine();
+
+		boolean draw = isDraw(players);
+		if (draw) System.out.println("Unentschieden \n");
+		else System.out.println(String.format("Der Gewinner ist: %s mit einer Punktzahl von %d ", players[0].name, players[0].score));
+		
+	}
+
+	private static void initJokerForEachPlayer(Player[] players, int questionCount) {
+		for (Player player : players) player.initJokerList(questionCount);
+	}
 	private void runQuiz(Player[] players, int roundCount) {
 		Supportfunctions.seperatorLine();
 
@@ -120,40 +154,6 @@ public class MainQuiz {
 		}
 	}
 
-	private void increaseScore(Player[] players, int currentPlayer) {
-		int currentScore = players[currentPlayer].score;
-		currentScore += 100;
-		players[currentPlayer].setScore(currentScore);
-	}
-
-	//looks for winner
-	private void showHighscore(Player[] players) {
-		Supportfunctions.seperatorLine();
-		System.out.println("Highscore: ");
-
-		Arrays.sort(players, Collections.reverseOrder());
-
-		boolean draw = false;
-
-		for (int i = 0; i < players.length; i++) {
-			// replace with scoreBoard?
-			System.out.println(String.format("%s hat %s Punkte", players[i].name, players[i].score));
-			//put into function?
-			if (i == 1 && players[i].score == players[0].score) draw = true;
-			
-		}
-
-		Supportfunctions.seperatorLine();
-
-		if (draw) System.out.println("Unentschieden \n");
-		else System.out.println(String.format("Der Gewinner ist: %s mit einer Punktzahl von %d ", players[0].name, players[0].score));
-		
-	}
-
-	private static void initJokerForEachPlayer(Player[] players, int questionCount) {
-		for (Player player : players) player.initJokerList(questionCount);
-	}
-
 	public static void main(String[] args) {
 		MainQuiz quiz = new MainQuiz();
 		quiz.opening();
@@ -164,6 +164,7 @@ public class MainQuiz {
 		initJokerForEachPlayer(players, roundCount);
 		displayScoreBoard(players);
 
+		// runQuiz is the main function / maybe its not needed? 
 		quiz.runQuiz(players, roundCount);
 
 		quiz.showHighscore(players);
