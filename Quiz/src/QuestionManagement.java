@@ -118,13 +118,13 @@ public class QuestionManagement {
 	}
 
 	private static void showTrueFalseQuestion(Question question) {
-		System.out.println( String.format("Frage: %s ", question.question) + "Antworten Sie mit w (für wahr) oder f (für falsch)!");
+		System.out.println( String.format("Frage: %s ", question.question) + "Antworten Sie mit w (wahr) oder f (falsch)!");
 
 	}
 
 	private static void showUserInputQuestion(Question question) {
 
-		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie über die Eingabe mit der korrekten Antwort!");
+		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie die korrekten Antwort mit der Eingabe");
 
 	}
 
@@ -187,7 +187,7 @@ public class QuestionManagement {
 
 		switch (joker.type) { // switch falls die Joker erweitert werden sollen
 		case tipp:
-			System.out.println(String.format("Frage: %s ", question.question) + "Antworten Sie mit w (für wahr) oder f (für falsch)!");
+			System.out.println(String.format("Frage: %s ", question.question) + "Antworten Sie mit w (wahr) oder f (falsch)!");
 			System.out.println(String.format("Tipp: %s", question.joker));
 			break;
 		default:
@@ -200,14 +200,14 @@ public class QuestionManagement {
 
 		Supportfunctions.seperatorLine();
 
-		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie über die Eingabe mit der korrekten Antwort!");
+		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie die korrekten Antwort mit der Eingabe");
 
 		switch (joker.type) {
 		case tipp:
 			System.out.println(String.format("Tipp: %s", question.joker));
 			break;
 		case letterNumber:
-			System.out.println(String.format("Die Länge der Antwort beträgt: %d", question.correctAnswer.length()));
+			System.out.println(String.format("Die antwort ist %d Schriftzeichen lang ", question.correctAnswer.length()));
 			break;
 		case firstLetter:
 			System.out.println(String.format("Das Wort beginnt mit: %c", question.correctAnswer.charAt(0)));

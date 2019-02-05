@@ -31,7 +31,7 @@ public class MainQuiz {
 		Player[] players = new Player[playerCount];
 
 		for (int i = 0; i < playerCount; i++) {
-			System.out.println(String.format("Bitte geben Sie den Namen für Spieler %d ein: ", i + 1));
+			System.out.println(String.format("Bitte geben Sie den Namen von Spieler %d ein: ", i + 1));
 
 			players[i] = new Player(Supportfunctions.getStringFromConsole(), 0);
 		}
@@ -125,7 +125,6 @@ public class MainQuiz {
 	private void runQuiz(Player[] players, int roundCount) {
 		Supportfunctions.seperatorLine();
 
-		System.out.println("Das Quiz kann nun beginnen! Die folgenden Spieler haben sich für das Quiz angemeldet: \n");
 
 
 		Supportfunctions.seperatorLine();
@@ -161,8 +160,9 @@ public class MainQuiz {
 		Player[] players = quiz.initPlayers(playerCount); // Spieleranzahl �bergeben an initPlayer
 		int roundCount = askRoundNumber(players);
 
-		initJokerForEachPlayer(players, roundCount);
+		System.out.println("Das Quiz kann nun beginnen! Die folgenden Spieler haben sich bei dem Quiz angemeldet: \n");
 		showScoreBoard(players);
+		initJokerForEachPlayer(players, roundCount);
 
 		// runQuiz is the main function / maybe its not needed? 
 		// ööäöäööüüüäöüäöüäö
