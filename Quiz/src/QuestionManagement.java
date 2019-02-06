@@ -7,6 +7,7 @@ import java.util.Random;
 public class QuestionManagement {
 
 	private static List<Question> _questions = null;
+	//diff categories 
 	private static List<Question> _questionsMultipleChoice = null;
 	private static List<Question> _questionsUserInput = null;
 	private static List<Question> _questionsTrueFalse = null;
@@ -15,54 +16,14 @@ public class QuestionManagement {
 	private static Player _player = null;
 
 	/**
-	 * eine zuf�llige Frage zur�ckgeben aus Fragenliste und Fragenliste bef�llen
-	 * 
-	 * @return
+	 * getsQuestion from Db and puts them into Class List by type
+	 * questionType is determined by number % x == 0
+	 * @return _questions
 	 */
-	public static Question getQuestion(List<Question> arr){
-
-		Question question = null;
-		if(arr != null || arr.size() == 0){
-
-			// gets random question
-			question = arr.get(Supportfunctions.getRandomInt(arr.size()));
-
-			// remove from both 
-			arr.remove(question);
-			_questions.remove(question);
-			return question;
-		} else {
-			// i dont understand this at all, why is this here
-			if (_questions != null) {
-
-				question = _questions.get(Supportfunctions.getRandomInt(_questions.size()));
-
-				_questions.remove(question);
-			}
-			return question;
-		}
-
-
-
-	}
-	// maybe rename getQuestionTypeList, not sure though
-	public static List<Question> selectQuestionType(int questionNumber) {
-
-		if (_questions == null) { // wird hier nur ausgef�hrt falls im Vorfeld noch keine Initialisierung der
-									// Fragen vorgenommen wurde -> sollte eigentlich nicht auftreten
-			initQuestionList();
-		}
-
-		if (questionNumber % 3 == 0) return _questionsUserInput;  
-		else if (questionNumber % 2 == 0) return _questionsTrueFalse;  
-		else return _questionsMultipleChoice;
-		
-
-	}
-
 	public static List<Question> initQuestionList() {
 		QuestionLibrary questionLibrary = new QuestionLibrary();
 		_questions = questionLibrary.getQuestions(System.getProperty("user.dir") + "\\questions.accdb");
+
 		_questionsMultipleChoice = new ArrayList<Question>();
 		_questionsTrueFalse = new ArrayList<Question>();
 		_questionsUserInput = new ArrayList<Question>();
@@ -83,6 +44,187 @@ public class QuestionManagement {
 
 		return _questions;
 	}
+	/**
+	 * takes number and returns Llist of certain questiontype
+	 * questionType is determined by number % x == 0
+	 * @param questionNumber
+	 * @return questionTpeList
+	 */
+	public static List<Question> getQuestionTypeList(int questionNumber) {
+
+		if (_questions == null) { // wird hier nur ausgef�hrt falls im Vorfeld noch keine Initialisierung der
+									// Fragen vorgenommen wurde -> sollte eigentlich nicht auftreten
+			initQuestionList();
+		}
+
+		if (questionNumber % 3 == 0) return _questionsUserInput;  
+		else if (questionNumber % 2 == 0) return _questionsTrueFalse;  
+		else return _questionsMultipleChoice;
+		
+
+	}
+
+	/**
+	 * takes array of questions and then returns random question out of that array
+	 * @param List<Question> 
+	 * @return question
+	 */
+	public static Question getQuestion(List<Question> arr){
+
+		Question question = null;
+		if(arr != null || arr.size() == 0){
+
+			// gets random question
+			question = arr.get(Supportfunctions.getRandomInt(arr.size()));
+
+			// remove from both 
+			arr.remove(question);
+			_questions.remove(question);
+			return question;
+		} else {
+			// else dosent make much sense 
+			// i dont understand this at all, why is this here
+			if (_questions != null) {
+
+				question = _questions.get(Supportfunctions.getRandomInt(_questions.size()));
+
+				_questions.remove(question);
+			}
+			return question;
+		}
+
+
+
+	}
+
+	//this still needs refactoring
+
+	/**
+	 * 
+	 * checks questiontypes and then checks if user answer is correct
+	 * @param question
+	 * @param jokerAlreadyUsed
+	 * @return boolean isCorrectSolved
+	 */
+	public static Boolean checkAnswer(Question question, Boolean jokerAlreadyUsed) {
+
+		Boolean isCorrectSolved = false;
+		Boolean isPossibleAnswer = false;
+		String input = "";
+
+
+
+		/**
+		 * 
+		 * Ideal structure of function like this:
+		 * //this function just be broken up in a validAnswer and correct Answer function
+		 * 
+		 * 
+		 * //name vars either answer or input for consistency
+		 * 
+		 * Boolean validAnswer = question.possibleAnswers.contains(userAnswer);
+		 * Boolean correctAnswer = question.correctAnswer == userAnswer;
+		 * 
+		 * while(!validAnswer) {
+		 *  print('please enter a valid answer')
+		 *  validAnswer = question.possibleAnswers.contains(userAnswer);
+		 * 
+		 * 
+		 * } 
+		 * if(correctAnswer){
+		 *   return true
+		 * } else {
+		 *   return true 
+		 * }
+		 * //Joker logic should also not be in here:
+		 * jokerEvent(){
+		 * 	if(userAnswer =='j'){
+		 *    useJoker();
+		 *  }
+		 * 
+		 * }
+		 * 
+		 * The irony is that the actual line of code which checkAnswer needs is 
+		 * } else if (input.equalsIgnoreCase(question.correctAnswer)) {
+		 * 	isCorrectSolved = true;
+		 * }
+		 * and its repeated for every case except userInput type.
+		 * I think we just need to trim userInput and we could just trim that regardless
+		 * The question is where to put the joker 
+		 * 
+		 */
+
+		
+		// it checks both if user input is valid and if input is correct. needs to be split up into functions
+		switch (question.type) {
+		case multipleChoice:
+
+			while (!isPossibleAnswer) {
+				input = Supportfunctions.getStringFromConsole();
+				//String[] values = {"a","b","c","d"};
+				//input = input.toLowerCase();
+				//boolean contains = Arrays.stream(values).anyMatch(input::equals);
+				//System.out.println(contains);
+
+				// would be much better if this logic was in the db
+				if (	input.equalsIgnoreCase("A") 
+						|| input.equalsIgnoreCase("B") 
+						|| input.equalsIgnoreCase("C")
+						|| input.equalsIgnoreCase("D") 
+						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
+					isPossibleAnswer = true;
+				} else {
+					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie A,B,C oder D ein!");
+				}
+			}
+
+			if (input.equalsIgnoreCase("j")) isCorrectSolved = JokerLibrary.askForJoker(question, _player, _questionNumber);
+			else if (input.equalsIgnoreCase(question.correctAnswer)) isCorrectSolved = true;
+
+			break;
+
+		case trueFalseQuestion:
+
+			while (!isPossibleAnswer) {
+				input = Supportfunctions.getStringFromConsole();
+				if (input.equalsIgnoreCase("w") 
+						|| input.equalsIgnoreCase("f")
+						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
+					isPossibleAnswer = true;
+				} else {
+					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie w oder f!");
+				}
+			}
+			if (input.equalsIgnoreCase("j")) {
+				isCorrectSolved = JokerLibrary.askForJoker(question, _player, _questionNumber);
+			} else if (input.equalsIgnoreCase(question.correctAnswer)) {
+				isCorrectSolved = true;
+			}
+
+			break;
+		case userInput:
+
+			input = Supportfunctions.getStringFromConsole();
+			// trim -> Leerzeichen entfernen, damit dadurch keine Fehler entstehen k�nnen
+			// (z.B. zu viele Leerzeichen zwischen W�rtern)
+
+			if (!jokerAlreadyUsed && input.equalsIgnoreCase("J")) {
+				isCorrectSolved = JokerLibrary.askForJoker(question, _player, _questionNumber);
+			} else if (input.trim().equalsIgnoreCase(question.correctAnswer.trim())) {
+				isCorrectSolved = true;
+			}
+
+			break;
+		}
+
+		return isCorrectSolved;
+
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// From now on its all about showQuestion. Ideally this would be refactored.
+	// The current structure makes it really hard to add another question type, 
+	// and then for that questiontype you have to add the jokers, so this is really suboptimal.
+	// 
 
 	public static void showQuestion(Question question, int questionNumber, Player player) {
 		Supportfunctions.seperatorLine();
@@ -215,80 +357,6 @@ public class QuestionManagement {
 		default:
 			break;
 		}
-
-	}
-
-	//this still needs refactoring
-	public static Boolean checkAnswer(Question question, Boolean jokerAlreadyUsed) {
-
-		Boolean isCorrectSolved = false;
-		Boolean isPossibleAnswer = false;
-		String input = "";
-
-		
-		// it checks both if user input is valid and if input is correct. needs to be split up into functions
-		switch (question.type) {
-		case multipleChoice:
-
-			while (!isPossibleAnswer) {
-				input = Supportfunctions.getStringFromConsole();
-				//String[] values = {"a","b","c","d"};
-				//input = input.toLowerCase();
-				//boolean contains = Arrays.stream(values).anyMatch(input::equals);
-				//System.out.println(contains);
-
-				// would be much better if this logic was in the db
-				if (	input.equalsIgnoreCase("A") 
-						|| input.equalsIgnoreCase("B") 
-						|| input.equalsIgnoreCase("C")
-						|| input.equalsIgnoreCase("D") 
-						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
-					isPossibleAnswer = true;
-				} else {
-					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie A,B,C oder D ein!");
-				}
-			}
-
-			if (input.equalsIgnoreCase("j")) isCorrectSolved = JokerLibrary.askForJoker(question, _player, _questionNumber);
-			else if (input.equalsIgnoreCase(question.correctAnswer)) isCorrectSolved = true;
-
-			break;
-
-		case trueFalseQuestion:
-
-			while (!isPossibleAnswer) {
-				input = Supportfunctions.getStringFromConsole();
-				if (input.equalsIgnoreCase("w") 
-						|| input.equalsIgnoreCase("f")
-						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
-					isPossibleAnswer = true;
-				} else {
-					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie w oder f!");
-				}
-			}
-			if (input.equalsIgnoreCase("j")) {
-				isCorrectSolved = JokerLibrary.askForJoker(question, _player, _questionNumber);
-			} else if (input.equalsIgnoreCase(question.correctAnswer)) {
-				isCorrectSolved = true;
-			}
-
-			break;
-		case userInput:
-
-			input = Supportfunctions.getStringFromConsole();
-			// trim -> Leerzeichen entfernen, damit dadurch keine Fehler entstehen k�nnen
-			// (z.B. zu viele Leerzeichen zwischen W�rtern)
-
-			if (!jokerAlreadyUsed && input.equalsIgnoreCase("J")) {
-				isCorrectSolved = JokerLibrary.askForJoker(question, _player, _questionNumber);
-			} else if (input.trim().equalsIgnoreCase(question.correctAnswer.trim())) {
-				isCorrectSolved = true;
-			}
-
-			break;
-		}
-
-		return isCorrectSolved;
 
 	}
 }

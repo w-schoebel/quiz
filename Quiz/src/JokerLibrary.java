@@ -16,11 +16,14 @@ public class JokerLibrary {
 	}
 
 	// get joker number from user
-	private static int getInput(int maxInputNumber){
+	/**
+	 * ask user for / until number between 0 and param maxInputNumber
+	 * @param maxInputNumber
+	 * @return
+	 */
+	private static int getJokerChoiceNumber(int maxInputNumber){
 		int input = -1;
-		System.out
-				.println(String.format("Vorgang abbrechen: %d!", maxInputNumber));
-
+		System.out.println(String.format("Vorgang abbrechen: %d!", maxInputNumber));
 		System.out.println(String.format("Bitte treffen Sie eine Wahl zwischen 1 und %d!", maxInputNumber ));
 
 		Boolean possibleRange = false;
@@ -29,12 +32,11 @@ public class JokerLibrary {
 			possibleRange = (input >= 0 && input <= maxInputNumber );
 
 			if (!possibleRange) {
-				System.out.println(String
-					.format( "Ihre Eingabe %d entspricht nicht den Vorgaben! Bitte geben Sie eine Zahl zwischen 1 und %d ein!", input, maxInputNumber));
+				System.out.println(String.format( "Ihre Eingabe %d entspricht nicht den Vorgaben! Bitte geben Sie eine Zahl zwischen 1 und %d ein!", input, maxInputNumber));
 			}
 		}
-		return input;
 
+		return input;
 	}
 	// shows user availble jokers and returns list of them 
 	private static List<Joker> getPossiblJokers(Question question,Player player){
@@ -53,6 +55,7 @@ public class JokerLibrary {
 		return possibleJokers;
 	}
 	
+	// possible name useJoker / checkForJoker
 	public static Boolean askForJoker(Question question, Player player, int questionNumber) {
 		Boolean isCorrectSolved = false;
 		
@@ -60,10 +63,11 @@ public class JokerLibrary {
 
 		List<Joker> possibleJokers = getPossiblJokers(question, player);
 		// + 1 because + 1 is the exit
-		int maxInputNumber = possibleJokers.size() + 1;
-		int input = getInput(maxInputNumber);
+		int maxJokerChoiceNumber = possibleJokers.size() + 1;
+		int input = getJokerChoiceNumber(maxJokerChoiceNumber);
 
-		if (possibleJokers.size() == 0 || input == maxInputNumber) { 
+		if (possibleJokers.size() == 0 || input == maxJokerChoiceNumber) { 
+			// it would be better if the function just returns false or true
 			if(possibleJokers.size() == 0) System.out.println("Bei diesen Fragetypen haben Sie leider keine weiteren Joker");
 			System.out.println("Wiederholung der Frage:\n");
 

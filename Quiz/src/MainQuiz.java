@@ -136,12 +136,14 @@ public class MainQuiz {
 		// vital part of programm here
 		for (int roundIndex = 0; roundIndex < roundCount; roundIndex++) {
 			for (int currentPlayerIndex = 0; currentPlayerIndex < players.length; currentPlayerIndex++) {
-				List<Question> questionTypeList = QuestionManagement.selectQuestionType(roundIndex + 1); //da wir mit Frage 1 starten und nur damit die Modulo Rechnung bei getQuestion richtig funktioniert
-				Question question = QuestionManagement.getQuestion(questionTypeList); //da wir mit Frage 1 starten und nur damit die Modulo Rechnung bei getQuestion richtig funktioniert
-				//showQuqestion takes question, questionNumber and player
+
+				List<Question> questionTypeList = QuestionManagement.getQuestionTypeList(roundIndex + 1); //da wir mit Frage 1 starten und nur damit die Modulo Rechnung bei getQuestion richtig funktioniert
+				Question question = QuestionManagement.getQuestion(questionTypeList);
 				int questionNumber = roundIndex * players.length + currentPlayerIndex;
+
 				QuestionManagement.showQuestion(question, questionNumber, players[currentPlayerIndex]);
 				Boolean isCorrectSolved = QuestionManagement.checkAnswer(question, false);
+
 				if (isCorrectSolved) {
 					increaseScore(players, currentPlayerIndex);
 					System.out.println("Die Antwort ist richtig!");
