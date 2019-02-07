@@ -47,29 +47,8 @@ public class MainQuiz {
 		// FragenListe initialisieren um mit der Fragenanzahl arbeiten zu k�nnen
 		_questions = QuestionManagement.initQuestionList();
 		// set round limit
-		String roundChoice = "";
 		int roundCount = 1;
 		int roundLimit = (int) _questions.size() / players.length;
-
-		/*
-		 * System.out.
-		 * println("Wollen Sie eine kleine oder eine gro�e Runde spielen? Geben Sie \"klein\" oder \"gro�\" ein!"
-		 * ); // evtl. Rundenzahl dynamisch mit rein
-		 * 
-		 * Boolean isPossibleInput = false;
-		 * 
-		 * while (!(isPossibleInput)) { roundChoice =
-		 * Supportfunctions.getStringFromConsole();
-		 * 
-		 * if (roundChoice.equalsIgnoreCase("klein")) { roundCount = roundLimit / 4;
-		 * isPossibleInput = true; } else if (roundChoice.equalsIgnoreCase("gro�")) {
-		 * roundCount = roundLimit; isPossibleInput = true; } else {
-		 * System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! " +
-		 * "Geben Sie \"klein\" oder \"gro�\" ein!"); }
-		 * 
-		 * 
-		 * }
-		 */
 
 		System.out.println(String.format("Wie viele Runden sollen gespielt werden: 1 - %d Runden", roundLimit));
 
@@ -114,7 +93,7 @@ public class MainQuiz {
 		Supportfunctions.seperatorLine();
 
 		boolean draw = isDraw(players);
-		if (draw) System.out.println("Unentschieden \n");
+		if (draw) System.out.println("Unentschieden!");
 		else System.out.println(String.format("Der Gewinner ist: %s mit einer Punktzahl von %d ", players[0].name, players[0].score));
 		
 	}
@@ -167,7 +146,6 @@ public class MainQuiz {
 		initJokerForEachPlayer(players, roundCount);
 
 		// runQuiz is the main function / maybe its not needed? 
-		// ööäöäööüüüäöüäöüäö
 		quiz.runQuiz(players, roundCount);
 
 		quiz.showHighscore(players);

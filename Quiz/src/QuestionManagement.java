@@ -1,8 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 public class QuestionManagement {
 
@@ -45,7 +42,7 @@ public class QuestionManagement {
 		return _questions;
 	}
 	/**
-	 * takes number and returns Llist of certain questiontype
+	 * takes number and returns List of certain questiontype
 	 * questionType is determined by number % x == 0
 	 * @param questionNumber
 	 * @return questionTpeList
@@ -192,7 +189,7 @@ public class QuestionManagement {
 						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
 					isPossibleAnswer = true;
 				} else {
-					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie w oder f!");
+					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie w oder f ein!");
 				}
 			}
 			if (input.equalsIgnoreCase("j")) {
@@ -266,7 +263,7 @@ public class QuestionManagement {
 
 	private static void showUserInputQuestion(Question question) {
 
-		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie die korrekten Antwort mit der Eingabe");
+		System.out.println(String.format("Frage: %s ", question.question) + "Geben Sie die korrekte Antwort ein!");
 
 	}
 
@@ -342,7 +339,7 @@ public class QuestionManagement {
 
 		Supportfunctions.seperatorLine();
 
-		System.out.println(String.format("Frage: %s ", question.question) + "Anworten Sie die korrekten Antwort mit der Eingabe");
+		System.out.println(String.format("Frage: %s ", question.question) + "Geben Sie die korrekte Antwort ein!");
 
 		switch (joker.type) {
 		case tipp:

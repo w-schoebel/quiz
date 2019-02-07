@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class JokerLibrary {
 
@@ -46,7 +44,7 @@ public class JokerLibrary {
 		for (Joker joker : player.jokerList) {
 			if (joker.questionType.equals(question.type) && joker.Count > 0) {
 				System.out.println(String
-					.format( "Wollen Sie einen %s verwenden? - Geben Sie eine %d ein! Sie habe davon noch %d Joker", joker.Name, i, joker.Count - 1));
+					.format( "Wollen Sie einen %s verwenden? - Geben Sie eine %d ein! Sie haben davon noch %d Joker.", joker.Name, i, joker.Count - 1));
 				possibleJokers.add(joker);
 				i++;
 			}
@@ -68,7 +66,7 @@ public class JokerLibrary {
 
 		if (possibleJokers.size() == 0 || input == maxJokerChoiceNumber) { 
 			// it would be better if the function just returns false or true
-			if(possibleJokers.size() == 0) System.out.println("Bei diesen Fragetypen haben Sie leider keine weiteren Joker");
+			if(possibleJokers.size() == 0) System.out.println("Bei diesem Fragetypen haben Sie leider keine weiteren Joker.");
 			System.out.println("Wiederholung der Frage:\n");
 
 			QuestionManagement.showQuestion(question, questionNumber, player);
