@@ -119,9 +119,16 @@ public class MainQuiz {
 				List<Question> questionTypeList = QuestionManagement.getQuestionTypeList(roundIndex + 1); //da wir mit Frage 1 starten und nur damit die Modulo Rechnung bei getQuestion richtig funktioniert
 				Question question = QuestionManagement.getQuestion(questionTypeList);
 				int questionNumber = roundIndex * players.length + currentPlayerIndex;
+				
 
 				QuestionManagement.showQuestion(question, questionNumber, players[currentPlayerIndex]);
-				Boolean isCorrectSolved = QuestionManagement.checkAnswer(question, false);
+
+				String input = QuestionManagement.forcePossibleInput(question, false);
+				if(input.equalsIgnoreCase("J")){
+					JokerLibrary.askForJoker(question, players[currentPlayerIndex], questionNumber);
+					input = QuestionManagement.forcePossibleInput(question, false);
+				}
+				Boolean isCorrectSolved = QuestionManagement.checkAnswer(question, input);
 
 				if (isCorrectSolved) {
 					increaseScore(players, currentPlayerIndex);

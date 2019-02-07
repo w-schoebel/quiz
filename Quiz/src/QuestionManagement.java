@@ -94,8 +94,64 @@ public class QuestionManagement {
 
 	}
 
-	//this still needs refactoring
 
+
+	public static String forcePossibleInput(Question question, Boolean jokerAlreadyUsed) {
+
+		Boolean isPossibleAnswer = false;
+		String input = "";
+
+
+
+		// it checks both if user input is valid and if input is correct. needs to be split up into functions
+		switch (question.type) {
+		case multipleChoice:
+
+			while (!isPossibleAnswer) {
+				input = Supportfunctions.getStringFromConsole();
+
+				// would be much better if this logic was in the db
+				if (	input.equalsIgnoreCase("A") 
+						|| input.equalsIgnoreCase("B") 
+						|| input.equalsIgnoreCase("C")
+						|| input.equalsIgnoreCase("D") 
+						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
+					isPossibleAnswer = true;
+				} else {
+					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie A,B,C oder D ein!");
+				}
+			}
+
+
+			break;
+
+		case trueFalseQuestion:
+
+			while (!isPossibleAnswer) {
+				input = Supportfunctions.getStringFromConsole();
+				if (input.equalsIgnoreCase("w") 
+						|| input.equalsIgnoreCase("f")
+						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
+					isPossibleAnswer = true;
+				} else {
+					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie w oder f ein!");
+				}
+			}
+
+			break;
+		case userInput:
+
+			input = Supportfunctions.getStringFromConsole();
+			// trim -> Leerzeichen entfernen, damit dadurch keine Fehler entstehen k�nnen
+			// (z.B. zu viele Leerzeichen zwischen W�rtern)
+
+
+			break;
+		}
+
+		return input;
+
+	}
 	/**
 	 * 
 	 * checks questiontypes and then checks if user answer is correct
@@ -103,14 +159,22 @@ public class QuestionManagement {
 	 * @param jokerAlreadyUsed
 	 * @return boolean isCorrectSolved
 	 */
-	public static Boolean checkAnswer(Question question, Boolean jokerAlreadyUsed) {
+	public static Boolean checkAnswer(Question question, String input) {
+		if(question.type == QuestionType.multipleChoice || question.type == QuestionType.trueFalseQuestion ){
+			if (input.equalsIgnoreCase(question.correctAnswer)) return true;
+		}
+		if(question.type == QuestionType.userInput){
+			 if (input.trim().equalsIgnoreCase(question.correctAnswer.trim())) {
+				return true;
+			}
 
-		Boolean isCorrectSolved = false;
-		Boolean isPossibleAnswer = false;
-		String input = "";
-
-
-
+		}
+		return false;
+	}
+				//String[] values = {"a","b","c","d"};
+				//input = input.toLowerCase();
+				//boolean contains = Arrays.stream(values).anyMatch(input::equals);
+				//System.out.println(contains);
 		/**
 		 * 
 		 * Ideal structure of function like this:
@@ -152,71 +216,6 @@ public class QuestionManagement {
 		 */
 
 		
-		// it checks both if user input is valid and if input is correct. needs to be split up into functions
-		switch (question.type) {
-		case multipleChoice:
-
-			while (!isPossibleAnswer) {
-				input = Supportfunctions.getStringFromConsole();
-				//String[] values = {"a","b","c","d"};
-				//input = input.toLowerCase();
-				//boolean contains = Arrays.stream(values).anyMatch(input::equals);
-				//System.out.println(contains);
-
-				// would be much better if this logic was in the db
-				if (	input.equalsIgnoreCase("A") 
-						|| input.equalsIgnoreCase("B") 
-						|| input.equalsIgnoreCase("C")
-						|| input.equalsIgnoreCase("D") 
-						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
-					isPossibleAnswer = true;
-				} else {
-					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie A,B,C oder D ein!");
-				}
-			}
-
-			if (input.equalsIgnoreCase("j")) isCorrectSolved = JokerLibrary.askForJoker(question, _player, _questionNumber);
-			else if (input.equalsIgnoreCase(question.correctAnswer)) isCorrectSolved = true;
-
-			break;
-
-		case trueFalseQuestion:
-
-			while (!isPossibleAnswer) {
-				input = Supportfunctions.getStringFromConsole();
-				if (input.equalsIgnoreCase("w") 
-						|| input.equalsIgnoreCase("f")
-						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
-					isPossibleAnswer = true;
-				} else {
-					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie w oder f ein!");
-				}
-			}
-			if (input.equalsIgnoreCase("j")) {
-				isCorrectSolved = JokerLibrary.askForJoker(question, _player, _questionNumber);
-			} else if (input.equalsIgnoreCase(question.correctAnswer)) {
-				isCorrectSolved = true;
-			}
-
-			break;
-		case userInput:
-
-			input = Supportfunctions.getStringFromConsole();
-			// trim -> Leerzeichen entfernen, damit dadurch keine Fehler entstehen k�nnen
-			// (z.B. zu viele Leerzeichen zwischen W�rtern)
-
-			if (!jokerAlreadyUsed && input.equalsIgnoreCase("J")) {
-				isCorrectSolved = JokerLibrary.askForJoker(question, _player, _questionNumber);
-			} else if (input.trim().equalsIgnoreCase(question.correctAnswer.trim())) {
-				isCorrectSolved = true;
-			}
-
-			break;
-		}
-
-		return isCorrectSolved;
-
-	}
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// From now on its all about showQuestion. Ideally this would be refactored.
 	// The current structure makes it really hard to add another question type, 

@@ -44,7 +44,7 @@ public class JokerLibrary {
 		for (Joker joker : player.jokerList) {
 			if (joker.questionType.equals(question.type) && joker.Count > 0) {
 				System.out.println(String
-					.format( "Wollen Sie einen %s verwenden? - Geben Sie eine %d ein! Sie haben davon noch %d Joker.", joker.Name, i, joker.Count - 1));
+					.format( "Wollen Sie einen %s verwenden? - Geben Sie eine %d ein! Sie haben davon noch %d Joker.", joker.Name, i + 1, joker.Count));
 				possibleJokers.add(joker);
 				i++;
 			}
@@ -54,7 +54,7 @@ public class JokerLibrary {
 	}
 	
 	// possible name useJoker / checkForJoker
-	public static Boolean askForJoker(Question question, Player player, int questionNumber) {
+	public static void askForJoker(Question question, Player player, int questionNumber) {
 		Boolean isCorrectSolved = false;
 		
 		Supportfunctions.seperatorLine();
@@ -75,9 +75,6 @@ public class JokerLibrary {
 			Joker choosenJoker = possibleJokers.get(input - 1);
 			showJoker(question, choosenJoker); 
 		}
-		//this should be removed soon
-		isCorrectSolved = QuestionManagement.checkAnswer(question, false);
-		return isCorrectSolved;
 	}
 
 
