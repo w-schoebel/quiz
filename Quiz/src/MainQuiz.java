@@ -6,11 +6,16 @@ public class MainQuiz {
 
 	private static List<Question> _questions = null;
 
+	//this function could be removed
 	private void opening() {
 		Supportfunctions.seperatorLine();
 		System.out.println("Willkommen bei [Name].");// TODO: Name einf�gen
 	}
 
+	/**
+	 * ask players for how many players there are
+	 * @return int playerCount
+	 */
 	private int initPlayerCount() {
 		Supportfunctions.seperatorLine();
 		System.out.println("Bitte geben Sie die Anzahl der Spieler ein, die an diesem Quiz teilnehmen -");
@@ -24,6 +29,11 @@ public class MainQuiz {
 		return playerCount;
 	}
 
+	/**
+	 * ask players to enter their name in order to have a list of players
+	 * @param playerCount
+	 * @return list of player objects
+	 */
 	private Player[] initPlayers(int playerCount) {
 		Supportfunctions.seperatorLine();
 
@@ -38,13 +48,22 @@ public class MainQuiz {
 
 		return players;
 	}
+	/**
+	 * display the current score rankings
+	 * @param players
+	 */
 	private static void showScoreBoard(Player[] players){
 		for (int i = 0; i < players.length; i++) {
 			System.out.println(String.format("Spieler %s: %s | Punktzahl: %s", i + 1, players[i].name, players[i].score));
 		}
 	}
+	/**
+	 * ask players how many round they each want to play
+	 * @param players
+	 * @return
+	 */
 	private static int askRoundNumber(Player[] players){
-		// FragenListe initialisieren um mit der Fragenanzahl arbeiten zu k�nnen
+		// initialize Questionlist 
 		_questions = QuestionManagement.initQuestionList();
 		// set round limit
 		int roundCount = 1;
@@ -68,11 +87,21 @@ public class MainQuiz {
 	}
 
 
+	/**
+	 * increase score
+	 * @param players
+	 * @param currentPlayer
+	 */
 	private void increaseScore(Player[] players, int currentPlayer) {
 		int currentScore = players[currentPlayer].score;
 		currentScore += 100;
 		players[currentPlayer].setScore(currentScore);
 	}
+	/**
+	 * check if there is a draw
+	 * @param players
+	 * @return boolean draw 
+	 */
 	private boolean isDraw(Player[] players) {
 		boolean draw = false;
 		for (int i = 0; i < players.length; i++) {
@@ -82,7 +111,11 @@ public class MainQuiz {
 		
 	}
 
-	//looks for winner
+
+	/**
+	 * sorts and shows highest player
+	 * @param players
+	 */
 	private void showHighscore(Player[] players) {
 		Supportfunctions.seperatorLine();
 		System.out.println("Highscore: ");
@@ -98,9 +131,24 @@ public class MainQuiz {
 		
 	}
 
+	/**
+	 * deep nesting here, => player.initJokerList => JokerLibrary.getJoker => JokerLibrary.iniJokerList 
+	 * initJokerList changes Joker class variable jokerList which then is returned by getJoker in Player class, 
+	 * so jokerlist from initJokerList is transported that way
+	 * @param players
+	 * @param questionCount
+	 */
 	private static void initJokerForEachPlayer(Player[] players, int questionCount) {
 		for (Player player : players) player.initJokerList(questionCount);
 	}
+	/**
+	 * this is the main function of the programm.
+	 * The for loop loops over the roundCount and the playerCount to ask each player a question.
+	 * The question is then checked and the players score adjusted
+	 * 
+	 * @param players
+	 * @param roundCount
+	 */
 	private void runQuiz(Player[] players, int roundCount) {
 		Supportfunctions.seperatorLine();
 
@@ -116,7 +164,8 @@ public class MainQuiz {
 		for (int roundIndex = 0; roundIndex < roundCount; roundIndex++) {
 			for (int currentPlayerIndex = 0; currentPlayerIndex < players.length; currentPlayerIndex++) {
 
-				List<Question> questionTypeList = QuestionManagement.getQuestionTypeList(roundIndex + 1); //da wir mit Frage 1 starten und nur damit die Modulo Rechnung bei getQuestion richtig funktioniert
+				// +1 because we start with question 1 and so that modulo works
+				List<Question> questionTypeList = QuestionManagement.getQuestionTypeList(roundIndex + 1); 
 				Question question = QuestionManagement.getQuestion(questionTypeList);
 				int questionNumber = roundIndex * players.length + currentPlayerIndex;
 				
@@ -141,18 +190,23 @@ public class MainQuiz {
 		}
 	}
 
+	/**
+	 * main function
+	 * init all vars, run quiz, end
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		MainQuiz quiz = new MainQuiz();
 		quiz.opening();
 		int playerCount = quiz.initPlayerCount();
-		Player[] players = quiz.initPlayers(playerCount); // Spieleranzahl �bergeben an initPlayer
+		Player[] players = quiz.initPlayers(playerCount);
 		int roundCount = askRoundNumber(players);
 
 		System.out.println("Das Quiz kann nun beginnen! Die folgenden Spieler haben sich bei dem Quiz angemeldet: \n");
 		showScoreBoard(players);
 		initJokerForEachPlayer(players, roundCount);
 
-		// runQuiz is the main function / maybe its not needed? 
+		// runQuiz is the main function 
 		quiz.runQuiz(players, roundCount);
 
 		quiz.showHighscore(players);

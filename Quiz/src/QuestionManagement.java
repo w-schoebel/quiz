@@ -96,6 +96,12 @@ public class QuestionManagement {
 
 
 
+	/**
+	 * forces user to enter a valid input
+	 * @param question
+	 * @param jokerAlreadyUsed
+	 * @return
+	 */
 	public static String forcePossibleInput(Question question, Boolean jokerAlreadyUsed) {
 
 		Boolean isPossibleAnswer = false;
@@ -103,7 +109,6 @@ public class QuestionManagement {
 
 
 
-		// it checks both if user input is valid and if input is correct. needs to be split up into functions
 		switch (question.type) {
 		case multipleChoice:
 
@@ -129,7 +134,7 @@ public class QuestionManagement {
 
 			while (!isPossibleAnswer) {
 				input = Supportfunctions.getStringFromConsole();
-				if (input.equalsIgnoreCase("w") 
+				if (	input.equalsIgnoreCase("w") 
 						|| input.equalsIgnoreCase("f")
 						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
 					isPossibleAnswer = true;
@@ -142,9 +147,6 @@ public class QuestionManagement {
 		case userInput:
 
 			input = Supportfunctions.getStringFromConsole();
-			// trim -> Leerzeichen entfernen, damit dadurch keine Fehler entstehen k�nnen
-			// (z.B. zu viele Leerzeichen zwischen W�rtern)
-
 
 			break;
 		}
@@ -171,49 +173,10 @@ public class QuestionManagement {
 		}
 		return false;
 	}
-				//String[] values = {"a","b","c","d"};
-				//input = input.toLowerCase();
-				//boolean contains = Arrays.stream(values).anyMatch(input::equals);
-				//System.out.println(contains);
-		/**
-		 * 
-		 * Ideal structure of function like this:
-		 * //this function just be broken up in a validAnswer and correct Answer function
-		 * 
-		 * 
-		 * //name vars either answer or input for consistency
-		 * 
-		 * Boolean validAnswer = question.possibleAnswers.contains(userAnswer);
-		 * Boolean correctAnswer = question.correctAnswer == userAnswer;
-		 * 
-		 * while(!validAnswer) {
-		 *  print('please enter a valid answer')
-		 *  validAnswer = question.possibleAnswers.contains(userAnswer);
-		 * 
-		 * 
-		 * } 
-		 * if(correctAnswer){
-		 *   return true
-		 * } else {
-		 *   return true 
-		 * }
-		 * //Joker logic should also not be in here:
-		 * jokerEvent(){
-		 * 	if(userAnswer =='j'){
-		 *    useJoker();
-		 *  }
-		 * 
-		 * }
-		 * 
-		 * The irony is that the actual line of code which checkAnswer needs is 
-		 * } else if (input.equalsIgnoreCase(question.correctAnswer)) {
-		 * 	isCorrectSolved = true;
-		 * }
-		 * and its repeated for every case except userInput type.
-		 * I think we just need to trim userInput and we could just trim that regardless
-		 * The question is where to put the joker 
-		 * 
-		 */
+	//String[] values = {"a","b","c","d"};
+	//input = input.toLowerCase();
+	//boolean contains = Arrays.stream(values).anyMatch(input::equals);
+	//System.out.println(contains);
 
 		
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -222,6 +185,12 @@ public class QuestionManagement {
 	// and then for that questiontype you have to add the jokers, so this is really suboptimal.
 	// 
 
+	/**
+	 * sorts current question for type then displays it
+	 * @param question
+	 * @param questionNumber
+	 * @param player
+	 */
 	public static void showQuestion(Question question, int questionNumber, Player player) {
 		Supportfunctions.seperatorLine();
 
@@ -270,12 +239,14 @@ public class QuestionManagement {
 
 		Supportfunctions.seperatorLine();
 
-		switch (joker.type) { // switch falls die Joker erweitert werden sollen
+		// switch in case further types will be added
+		switch (joker.type) { 
 		case fiftyFifty:
 
 			char wrongAnswer = '\0';
 
-			while (true) { // gibt einen Buchstaben f�r eine falsche Antwort zur�ck
+			//return letter for wrong answer
+			while (true) { 
 
 				char rndChar = Supportfunctions.getRandomChar("ABCD");
 
@@ -285,11 +256,11 @@ public class QuestionManagement {
 				}
 			}
 
-			char rightAnswer = question.correctAnswer.charAt(0); // gibt den ersten Buchstaben der korrekten Antwort
-																	// zur�ck -> Absicherung falls es mehrere Buchstaben
-																	// gibt
+			//returns first letter of correct answer
+			//safty in case multiple letters
+			char rightAnswer = question.correctAnswer.charAt(0);
 
-			// Antwortm�glichkeiten leer setzen aufgrund des Jokers
+			// convert letter into imptey spaces 
 			String a = String.valueOf(wrongAnswer)
 				.equalsIgnoreCase("A") || String.valueOf(rightAnswer).equalsIgnoreCase("A") ? question.answer1 : "";
 
@@ -302,7 +273,8 @@ public class QuestionManagement {
 			String d = String.valueOf(wrongAnswer)
 				.equalsIgnoreCase("D") || String.valueOf(rightAnswer).equalsIgnoreCase("D") ? question.answer4 : "";
 
-			// Textl�nge berechnen f�r die richtigen Abst�nde bei dem Anzeigen der Fragen
+		
+			// text length for correct spaces when displaying the questions
 			int maxTextLength = 0;
 			maxTextLength = a.length() > maxTextLength ? a.length() : maxTextLength;
 			maxTextLength = c.length() > maxTextLength ? c.length() : maxTextLength;
@@ -323,7 +295,8 @@ public class QuestionManagement {
 
 		Supportfunctions.seperatorLine();
 
-		switch (joker.type) { // switch falls die Joker erweitert werden sollen
+		// switch in case for more types
+		switch (joker.type) { 
 		case tipp:
 			System.out.println(String.format("Frage: %s ", question.question) + "Antworten Sie mit w (wahr) oder f (falsch)!");
 			System.out.println(String.format("Tipp: %s", question.joker));
