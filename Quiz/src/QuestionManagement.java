@@ -109,6 +109,18 @@ public class QuestionManagement {
 
 
 
+
+
+		//ideal way:
+		//String userInput = Supportfunctions.getStringFromConsole();
+		//Boolean validInput = question.possibleAnswers.contains(userInput);
+		//while(!validInput){
+		//		userInput = Supportfunctions.getStringFromConsole();
+		//		validInput = question.possibleAnswers.contains(userInput);
+		//		System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie A,B,C oder D ein!");
+		//}
+		//return userInput;
+
 		switch (question.type) {
 		case multipleChoice:
 

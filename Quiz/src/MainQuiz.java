@@ -172,7 +172,7 @@ public class MainQuiz {
 				QuestionManagement.showQuestion(question, questionNumber, players[currentPlayerIndex]);
 
 				String input = QuestionManagement.forcePossibleInput(question);
-				if(input.equalsIgnoreCase("J")){
+				while(input.equalsIgnoreCase("J")){
 					JokerLibrary.askForJoker(question, players[currentPlayerIndex], questionNumber);
 					input = QuestionManagement.forcePossibleInput(question);
 				}

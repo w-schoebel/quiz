@@ -136,7 +136,7 @@ public class JokerLibrary {
 
 		// gibt die Wortl�nge f�r die richtige Antwort zur�ck
 		joker = new Joker();
-		joker.Name = "Wortlängen - Joker";
+		joker.Name = "Buchstaben Anzahl - Joker";
 		joker.Count = jokerCount == 0 ? 1 : jokerCount;
 		joker.type = JokerType.letterNumber;
 		joker.questionType = QuestionType.userInput;
