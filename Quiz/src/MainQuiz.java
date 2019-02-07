@@ -169,17 +169,16 @@ public class MainQuiz {
 				Question question = QuestionManagement.getQuestion(questionTypeList);
 				int questionNumber = roundIndex * players.length + currentPlayerIndex;
 				
-
 				QuestionManagement.showQuestion(question, questionNumber, players[currentPlayerIndex]);
 
-				String input = QuestionManagement.forcePossibleInput(question, false);
+				String input = QuestionManagement.forcePossibleInput(question);
 				if(input.equalsIgnoreCase("J")){
 					JokerLibrary.askForJoker(question, players[currentPlayerIndex], questionNumber);
-					input = QuestionManagement.forcePossibleInput(question, false);
+					input = QuestionManagement.forcePossibleInput(question);
 				}
-				Boolean isCorrectSolved = QuestionManagement.checkAnswer(question, input);
+				Boolean inputCorrect = QuestionManagement.checkAnswer(question, input);
 
-				if (isCorrectSolved) {
+				if (inputCorrect) {
 					increaseScore(players, currentPlayerIndex);
 					System.out.println("Die Antwort ist richtig!");
 				} else {

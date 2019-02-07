@@ -102,7 +102,7 @@ public class QuestionManagement {
 	 * @param jokerAlreadyUsed
 	 * @return
 	 */
-	public static String forcePossibleInput(Question question, Boolean jokerAlreadyUsed) {
+	public static String forcePossibleInput(Question question) {
 
 		Boolean isPossibleAnswer = false;
 		String input = "";
@@ -120,7 +120,7 @@ public class QuestionManagement {
 						|| input.equalsIgnoreCase("B") 
 						|| input.equalsIgnoreCase("C")
 						|| input.equalsIgnoreCase("D") 
-						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
+						|| input.equalsIgnoreCase("J")) {
 					isPossibleAnswer = true;
 				} else {
 					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie A,B,C oder D ein!");
@@ -136,7 +136,7 @@ public class QuestionManagement {
 				input = Supportfunctions.getStringFromConsole();
 				if (	input.equalsIgnoreCase("w") 
 						|| input.equalsIgnoreCase("f")
-						|| (!jokerAlreadyUsed && input.equalsIgnoreCase("J"))) {
+						|| input.equalsIgnoreCase("J")) {
 					isPossibleAnswer = true;
 				} else {
 					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie w oder f ein!");
