@@ -115,7 +115,7 @@ public class QuestionManagement {
 						|| input.equalsIgnoreCase("J")) {
 					isPossibleAnswer = true;
 				} else {
-					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie A,B,C oder D ein!");
+					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie A, B, C oder D ein!");
 				}
 			}
 
@@ -131,7 +131,7 @@ public class QuestionManagement {
 						|| input.equalsIgnoreCase("J")) {
 					isPossibleAnswer = true;
 				} else {
-					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie w oder f ein!");
+					System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie W oder F ein!");
 				}
 			}
 
@@ -222,7 +222,7 @@ public class QuestionManagement {
 	 * @return void
 	 */
 	private static void showTrueFalseQuestion(Question question) {
-		System.out.println( String.format("Frage: %s ", question.question) + "Antworten Sie mit w (wahr) oder f (falsch)!");
+		System.out.println( String.format("Frage: %s ", question.question) + "Antworten Sie mit W (wahr) oder F (falsch)!");
 
 	}
 
@@ -287,7 +287,7 @@ public class QuestionManagement {
 			maxTextLength = a.length() > maxTextLength ? a.length() : maxTextLength;
 			maxTextLength = c.length() > maxTextLength ? c.length() : maxTextLength;
 
-			System.out.println(String.format("Frage: %s ", question.question) + "Geben Sie A,B,C oder D ein!");
+			System.out.println(String.format("Frage: %s ", question.question) + "Geben Sie A, B, C oder D ein!");
 
 			System.out.println(String.format("A: %s", a) + Supportfunctions.spaces(maxTextLength - a.length()) + String.format("B: %s", b));
 
@@ -312,7 +312,7 @@ public class QuestionManagement {
 		// switch in case for more types
 		switch (joker.type) { 
 		case tipp:
-			System.out.println(String.format("Frage: %s ", question.question) + "Antworten Sie mit w (wahr) oder f (falsch)!");
+			System.out.println(String.format("Frage: %s ", question.question) + "Antworten Sie mit W (wahr) oder F (falsch)!");
 			System.out.println(String.format("Tipp: %s", question.joker));
 			break;
 		default:
@@ -338,7 +338,7 @@ public class QuestionManagement {
 			System.out.println(String.format("Tipp: %s", question.joker));
 			break;
 		case letterNumber:
-			System.out.println(String.format("Die antwort ist %d Schriftzeichen lang ", question.correctAnswer.length()));
+			System.out.println(String.format("Die Antwort ist %d Schriftzeichen lang ", question.correctAnswer.length()));
 			break;
 		case firstLetter:
 			System.out.println(String.format("Das Wort beginnt mit: %c", question.correctAnswer.charAt(0)));
