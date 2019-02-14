@@ -6,12 +6,6 @@ public class MainQuiz {
 
 	private static List<Question> _questions = null;
 
-	//this function could be removed
-	private void opening() {
-		Supportfunctions.seperatorLine();
-		System.out.println("Willkommen bei [Name].");// TODO: Name einf�gen
-	}
-
 	/**
 	 * ask players for how many players there are
 	 * @return int playerCount
@@ -21,7 +15,7 @@ public class MainQuiz {
 		System.out.println("Bitte geben Sie die Anzahl der Spieler ein, die an diesem Quiz teilnehmen -");
 
 		int playerCount = 0;
-		while (playerCount < 2 || playerCount > 6) {// damit nur Spieleranzahl zwischen 2 und 6 m�glich
+		while (playerCount < 2 || playerCount > 6) {
 			System.out.println("Spieleranzahl [2-6]: \n");
 			playerCount = Supportfunctions.getIntFromConsole();
 		}
@@ -51,6 +45,7 @@ public class MainQuiz {
 	/**
 	 * display the current score rankings
 	 * @param players
+	 * @return void
 	 */
 	private static void showScoreBoard(Player[] players){
 		for (int i = 0; i < players.length; i++) {
@@ -60,7 +55,7 @@ public class MainQuiz {
 	/**
 	 * ask players how many round they each want to play
 	 * @param players
-	 * @return
+	 * @return int roundCount
 	 */
 	private static int askRoundNumber(Player[] players){
 		// initialize Questionlist 
@@ -91,6 +86,7 @@ public class MainQuiz {
 	 * increase score
 	 * @param players
 	 * @param currentPlayer
+	 * @return void
 	 */
 	private void increaseScore(Player[] players, int currentPlayer) {
 		int currentScore = players[currentPlayer].score;
@@ -115,6 +111,7 @@ public class MainQuiz {
 	/**
 	 * sorts and shows highest player
 	 * @param players
+	 * @return void
 	 */
 	private void showHighscore(Player[] players) {
 		Supportfunctions.seperatorLine();
@@ -137,6 +134,7 @@ public class MainQuiz {
 	 * so jokerlist from initJokerList is transported that way
 	 * @param players
 	 * @param questionCount
+	 * @return void
 	 */
 	private static void initJokerForEachPlayer(Player[] players, int questionCount) {
 		for (Player player : players) player.initJokerList(questionCount);
@@ -148,6 +146,7 @@ public class MainQuiz {
 	 * 
 	 * @param players
 	 * @param roundCount
+	 * @return void
 	 */
 	private void runQuiz(Player[] players, int roundCount) {
 		Supportfunctions.seperatorLine();
@@ -193,10 +192,12 @@ public class MainQuiz {
 	 * main function
 	 * init all vars, run quiz, end
 	 * @param args
+	 * @return void
 	 */
 	public static void main(String[] args) {
 		MainQuiz quiz = new MainQuiz();
-		quiz.opening();
+		Supportfunctions.seperatorLine();
+		System.out.println("Willkommen bei Quiz.");
 		int playerCount = quiz.initPlayerCount();
 		Player[] players = quiz.initPlayers(playerCount);
 		int roundCount = askRoundNumber(players);

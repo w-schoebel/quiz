@@ -11,9 +11,9 @@ public class QuestionLibrary {
     private List<Question> _questions = null;
  
     /**
-     * Fragenliste zurückgeben (einmalige Datenbankverbindung)
+     * return list of Questions (from db connection)
      * @param filePath 
-     * @return Fragenliste
+     * @return List<Question> _questions
      */
     public List<Question> getQuestions(String filePath) {
         if (_questions == null)
@@ -22,9 +22,10 @@ public class QuestionLibrary {
     }
  
    /**
-    * Datenbankverbindung - Füllt die Fragenliste
-    * Vorgang wie von Microsoft beschrieben
+    * Database connection to fill question list
+    * process taken from Mircrosoft
     * @param filePath
+    * @return void
     */
     private void GetQuestionsFromDatabase(String filePath) {
         // variables
@@ -62,7 +63,7 @@ public class QuestionLibrary {
                 Question question = new Question();
                 question.id = resultSet.getInt(1);
                 question.question = resultSet.getString(2);
-                question.type = QuestionType.valueOf(resultSet.getString(3));// valueOf prüft ob String in Enum vorkommt
+                question.type = QuestionType.valueOf(resultSet.getString(3));// valueOf prï¿½ft ob String in Enum vorkommt
                 question.answer1 = resultSet.getString(4);
                 question.answer2 = resultSet.getString(5);
                 question.answer3 = resultSet.getString(6);

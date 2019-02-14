@@ -8,7 +8,7 @@ public class JokerLibrary {
 	/**
 	 * init and return jokerlist
 	 * @param questionCount
-	 * @return jokerList
+	 * @return List<Joker> jokerList
 	 */
 	public static List<Joker> getJoker(int questionCount) {
 		
@@ -21,7 +21,7 @@ public class JokerLibrary {
 	/**
 	 * ask user for / until number between 0 and param maxInputNumber
 	 * @param maxInputNumber
-	 * @return
+	 * @return int input
 	 */
 	private static int getJokerChoiceNumber(int maxInputNumber){
 		int input = -1;
@@ -44,7 +44,7 @@ public class JokerLibrary {
 	 * shows user availble jokers and returns list of them 
 	 * @param question
 	 * @param player
-	 * @return possibleJokers
+	 * @return List<Joker> possibleJokers
 	 */
 	private static List<Joker> getPossiblJokers(Question question,Player player){
 		List<Joker> possibleJokers = new ArrayList<Joker>();
@@ -68,6 +68,7 @@ public class JokerLibrary {
 	 * @param question
 	 * @param player
 	 * @param questionNumber
+	 * @return void
 	 */
 	public static void askForJoker(Question question, Player player, int questionNumber) {
 		Boolean isCorrectSolved = false;
@@ -80,7 +81,6 @@ public class JokerLibrary {
 		int jokerChoiceNumber = getJokerChoiceNumber(maxJokerChoiceNumber);
 
 		if (possibleJokers.size() == 0 || jokerChoiceNumber == maxJokerChoiceNumber) { 
-			// refactor?
 			if(possibleJokers.size() == 0) System.out.println("Bei diesem Fragetypen haben Sie leider keine weiteren Joker.");
 			System.out.println("Wiederholung der Frage:\n");
 
@@ -97,6 +97,7 @@ public class JokerLibrary {
 	 * decide which joker type to show
 	 * @param question
 	 * @param joker
+	 * @return void
 	 */
 	private static void showJoker(Question question, Joker joker) {
 		switch (question.type) {
@@ -119,22 +120,22 @@ public class JokerLibrary {
 	/**
 	 * initializes jokers
 	 * @param jokerCount
+	 * @return void
 	 */
 	private static void initJokerList(int jokerCount) {
 		jokerList = new ArrayList<Joker>();
 		Joker joker = new Joker();
 
-		// 50/50 - Joker und Wortl�ngen-Joker gibt es bereits bei unter 10 Fragen
+		// 50/50 - Joker and wordlength joer already available below 10 questions
 
 		// 50/50 - Joker
 		joker.Name = "50/50 - Joker";
-		joker.Count = jokerCount == 0 ? 1 : jokerCount; // if(jokerCount == 0) joker.Count = 1; else joker.Count =
-														// jokerCount;
+		joker.Count = jokerCount == 0 ? 1 : jokerCount;
 		joker.type = JokerType.fiftyFifty;
 		joker.questionType = QuestionType.multipleChoice;
 		jokerList.add(joker);
 
-		// gibt die Wortl�nge f�r die richtige Antwort zur�ck
+		// gives word length of the correct answer
 		joker = new Joker();
 		joker.Name = "Buchstaben Anzahl - Joker";
 		joker.Count = jokerCount == 0 ? 1 : jokerCount;
@@ -142,7 +143,7 @@ public class JokerLibrary {
 		joker.questionType = QuestionType.userInput;
 		jokerList.add(joker);
 
-		// gibt den ersten Buchstaben der richtigen Antwort zur�ck
+		// gives the first correct letter of correct answer
 		joker = new Joker();
 		joker.Name = "Erster - Buchstaben - Joker";
 		joker.Count = jokerCount;
@@ -150,7 +151,7 @@ public class JokerLibrary {
 		joker.questionType = QuestionType.userInput;
 		jokerList.add(joker);
 
-		// gibt einen Tipp f�r die richtige Antwort zur�ck
+		// gives a tipp for the correct answer
 		joker = new Joker();
 		joker.Name = "Tipp - Joker";
 		joker.Count = jokerCount;
@@ -158,7 +159,7 @@ public class JokerLibrary {
 		joker.questionType = QuestionType.trueFalseQuestion;
 		jokerList.add(joker);
 
-		// gibt einen Tipp f�r die richtige Antwort zur�ck
+		// gives a tipp for the correct answer
 		joker = new Joker();
 		joker.Name = "Tipp - Joker";
 		joker.Count = jokerCount;

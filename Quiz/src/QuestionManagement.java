@@ -15,7 +15,7 @@ public class QuestionManagement {
 	/**
 	 * getsQuestion from Db and puts them into Class List by type
 	 * questionType is determined by number % x == 0
-	 * @return _questions
+	 * @return List<Question> _questions
 	 */
 	public static List<Question> initQuestionList() {
 		QuestionLibrary questionLibrary = new QuestionLibrary();
@@ -45,7 +45,7 @@ public class QuestionManagement {
 	 * takes number and returns List of certain questiontype
 	 * questionType is determined by number % x == 0
 	 * @param questionNumber
-	 * @return questionTpeList
+	 * @return List<Question> questionTpeList
 	 */
 	public static List<Question> getQuestionTypeList(int questionNumber) {
 
@@ -64,7 +64,7 @@ public class QuestionManagement {
 	/**
 	 * takes array of questions and then returns random question out of that array
 	 * @param List<Question> 
-	 * @return question
+	 * @return Question question
 	 */
 	public static Question getQuestion(List<Question> arr){
 
@@ -100,26 +100,12 @@ public class QuestionManagement {
 	 * forces user to enter a valid input
 	 * @param question
 	 * @param jokerAlreadyUsed
-	 * @return
+	 * @return String input
 	 */
 	public static String forcePossibleInput(Question question) {
 
 		Boolean isPossibleAnswer = false;
 		String input = "";
-
-
-
-
-
-		//ideal way:
-		//String userInput = Supportfunctions.getStringFromConsole();
-		//Boolean validInput = question.possibleAnswers.contains(userInput);
-		//while(!validInput){
-		//		userInput = Supportfunctions.getStringFromConsole();
-		//		validInput = question.possibleAnswers.contains(userInput);
-		//		System.out.println("Ihre Eingabe entspricht nicht der Vorgabe! Geben Sie A,B,C oder D ein!");
-		//}
-		//return userInput;
 
 		switch (question.type) {
 		case multipleChoice:
@@ -127,7 +113,6 @@ public class QuestionManagement {
 			while (!isPossibleAnswer) {
 				input = Supportfunctions.getStringFromConsole();
 
-				// would be much better if this logic was in the db
 				if (	input.equalsIgnoreCase("A") 
 						|| input.equalsIgnoreCase("B") 
 						|| input.equalsIgnoreCase("C")
@@ -185,12 +170,6 @@ public class QuestionManagement {
 		}
 		return false;
 	}
-	//String[] values = {"a","b","c","d"};
-	//input = input.toLowerCase();
-	//boolean contains = Arrays.stream(values).anyMatch(input::equals);
-	//System.out.println(contains);
-
-		
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// From now on its all about showQuestion. Ideally this would be refactored.
 	// The current structure makes it really hard to add another question type, 
@@ -202,6 +181,7 @@ public class QuestionManagement {
 	 * @param question
 	 * @param questionNumber
 	 * @param player
+	 * @return void
 	 */
 	public static void showQuestion(Question question, int questionNumber, Player player) {
 		Supportfunctions.seperatorLine();
@@ -226,6 +206,11 @@ public class QuestionManagement {
 		}
 	}
 
+	/**
+	 * shows multiple choice question
+	 * @param question
+	 * @return void
+	 */
 	private static void showMultipleChoiceQuestion(Question question) {
 		int maxTextLength = 0;
 		maxTextLength = question.answer1.length() > maxTextLength ? question.answer1.length() : maxTextLength;
@@ -236,17 +221,33 @@ public class QuestionManagement {
 		System.out.println(String.format("C: %s", question.answer3) + Supportfunctions.spaces(maxTextLength - question.answer3.length()) + String.format("D: %s", question.answer4));
 	}
 
+	/**
+	 * shows true false question
+	 * @param question
+	 * @return void
+	 */
 	private static void showTrueFalseQuestion(Question question) {
 		System.out.println( String.format("Frage: %s ", question.question) + "Antworten Sie mit w (wahr) oder f (falsch)!");
 
 	}
 
+	/**
+	 * show userinput question
+	 * @param question
+	 * @return void
+	 */
 	private static void showUserInputQuestion(Question question) {
 
 		System.out.println(String.format("Frage: %s ", question.question) + "Geben Sie die korrekte Antwort ein!");
 
 	}
 
+	/**
+	 * show multiple choice but with joker
+	 * @param question
+	 * @param joker
+	 * @return void
+	 */
 	public static void showMultipleChoiceQuestionWithJoker(Question question, Joker joker) {
 
 		Supportfunctions.seperatorLine();
@@ -303,6 +304,12 @@ public class QuestionManagement {
 
 	}
 
+	/**
+	 * show true false question but with joker
+	 * @param question
+	 * @param joker
+	 * @return void
+	 */
 	public static void showTrueFalseQuestionWithJoker(Question question, Joker joker) {
 
 		Supportfunctions.seperatorLine();
@@ -319,6 +326,12 @@ public class QuestionManagement {
 
 	}
 
+	/**
+	 * show userinput but with joker
+	 * @param question
+	 * @param joker
+	 * @return void
+	 */
 	public static void showUserInputQuestionWithJoker(Question question, Joker joker) {
 
 		Supportfunctions.seperatorLine();

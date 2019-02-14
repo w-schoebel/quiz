@@ -19,7 +19,7 @@ public class Player implements Comparable <Player>{
 	/**
 	 * setter for score
 	 * @param score
-	 * @return
+	 * @return this
 	 */
 	public Player setScore(int score) {
 		this.score = score;
@@ -29,14 +29,19 @@ public class Player implements Comparable <Player>{
 	/**
 	 * transport jokerlist from jokerclass
 	 * @param questionCount
+	 * @return void
 	 */
 	public void initJokerList(int questionCount) {
 		jokerList = JokerLibrary.getJoker(questionCount);
 	}
 	
+	/**
+	 * to compare Player object to other player
+	 * @param Player player
+	 * @return int scoreDifference
+	 */
 	@Override
 	public int compareTo(Player player) {
-		return (int)(this.score - player.score); // Vergleicht den Score des einen Elements mit dem �bergebenen Score (f�r Sorting)
-		// definiert das Sort �ber die variable Score durchgef�hrt wird
+		return (int)(this.score - player.score); 
 	}
 }

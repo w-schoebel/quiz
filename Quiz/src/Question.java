@@ -1,6 +1,6 @@
 
 public class Question {
-	//Datenstruktur aus questionns.accdb abgebildet
+	//Datastructure from questionns.accdb 
 	public int id;
 	public String question;
 	public QuestionType type;

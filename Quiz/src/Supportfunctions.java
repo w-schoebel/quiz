@@ -3,18 +3,33 @@ import java.util.Scanner;
 
 public class Supportfunctions {
 	
+	/**
+	 * get random char from given alphabet
+	 * @param alphabet
+	 * @return char char
+	 */
 	public static char getRandomChar(String alphabet) {
 		Random randomChar = new Random(); 
 		
 		return alphabet.charAt(randomChar.nextInt(alphabet.length()));	
 	}
 	
+	
+	/**
+	 *  get random int
+	 * @param range
+	 * @return int int
+	 */
 	public static int getRandomInt(int range) {
 		Random randomGenerator = new Random();
 
 		return randomGenerator.nextInt(range);
 	}
 	
+	/**
+	 * get int from user
+	 * @return int value
+	 */
 	public static int getIntFromConsole() {
 		boolean isInt = false;
 		int value = 0;
@@ -33,6 +48,10 @@ public class Supportfunctions {
 		return value;
 	}
 
+	/**
+	 * get string from user
+	 * @return string value
+	 */
 	public static String getStringFromConsole() {
 		Scanner sc01 = new Scanner(System.in);
 		String value = sc01.next();
@@ -40,28 +59,45 @@ public class Supportfunctions {
 		return value;
 	}
 
+	/**
+	 * 
+	 * changes string into integer, returns if successfull or not
+	 * @param value
+	 * @return boolean 
+	 */
 	public static boolean tryParseInt(String value) {
 		try {
-			Integer.parseInt(value); // versucht den String in einen Int zu �berf�hren
+			Integer.parseInt(value); 
 			return true;
-		} catch (NumberFormatException e) { // wenn kein Int geparst werden kann-> Exception e
+		} catch (NumberFormatException e) { 
 			return false;
 		}
 	}
 
+	/**
+	 * display line in console for seperation
+	 * @return void
+	 */
 	public static void seperatorLine() {
 		System.out.println(
 				"--------------------------------------------------------------------------------------------------------");
 	}
 	
+	/**
+	 * adds spaces
+	 * @param maxTextLength
+	 * @return String spaces
+	 */
 	public static String spaces(int maxTextLength) {
 		String spaces = "";
 		
 		for(int i = 0; i < maxTextLength; i++)
 		{
-				spaces += " "; //f�r jeden Buchstaben ein Leerzeichen einf�gen
+				//insert empty space for every letter
+				spaces += " "; 
 		}
 		
-		return spaces + "        "; //zus�tzliche Leerzeichen f�r die �bersichtlichkeit
+		//additional empty spaces for better overview
+		return spaces + "        "; 
 	}
 }
