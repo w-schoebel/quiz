@@ -152,13 +152,6 @@ public class MainQuiz {
 		Supportfunctions.seperatorLine();
 
 
-
-		Supportfunctions.seperatorLine();
-
-
-		System.out.println("In jeder Runde können Sie über den Buchstaben J einen Joker verwenden. Solange bis keine Joker mehr zur Verfügung stehen.");
-		System.out.println("Für jeden Fragentyp stehen unterschiedliche Joker zur Auswahl.");
-
 		// vital part of programm here
 		for (int roundIndex = 0; roundIndex < roundCount; roundIndex++) {
 			for (int currentPlayerIndex = 0; currentPlayerIndex < players.length; currentPlayerIndex++) {
@@ -197,7 +190,9 @@ public class MainQuiz {
 	public static void main(String[] args) {
 		MainQuiz quiz = new MainQuiz();
 		Supportfunctions.seperatorLine();
-		System.out.println("Willkommen bei Quiz.");
+		System.out.println("Willkommen beim Quiz! \n\n" + "Sie bekommen nun abwechselnd Fragen gestellt, die Sie beantworten müssen. \n" +
+				"Bei einigen Fragen müssen Sie selbst eine Antwort eingeben. Die Lösung ist bei diesem Fragetypen nur ein Wort. \n\n" + 
+				"Wenn Sie bei einer Frage nicht weiterkommen, besitzt jeder Spieler eine begrenzte Anzahl von Jokern. Geben Sie \"J\" ein, wenn Sie einen Joker nutzen wollen. \n" );
 		int playerCount = quiz.initPlayerCount();
 		Player[] players = quiz.initPlayers(playerCount);
 		int roundCount = askRoundNumber(players);
