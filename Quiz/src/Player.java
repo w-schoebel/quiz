@@ -8,8 +8,8 @@ public class Player implements Comparable <Player>{
 
 	/**
 	 * constructor
-	 * @param name
-	 * @param score
+	 * @param name String for name of player
+	 * @param score int for game score of player
 	 */
 	public Player(String name, int score) { 
 		this.name = name;
@@ -18,7 +18,7 @@ public class Player implements Comparable <Player>{
 	
 	/**
 	 * setter for score
-	 * @param score
+	 * @param score int for game score of player 
 	 * @return this
 	 */
 	public Player setScore(int score) {
@@ -28,7 +28,7 @@ public class Player implements Comparable <Player>{
 	
 	/**
 	 * transport jokerlist from jokerclass
-	 * @param questionCount
+	 * @param questionCount int 
 	 * @return void
 	 */
 	public void initJokerList(int questionCount) {
@@ -37,7 +37,7 @@ public class Player implements Comparable <Player>{
 	
 	/**
 	 * to compare Player object to other player
-	 * @param Player player
+	 * @param Player compare to other player class instance
 	 * @return int scoreDifference
 	 */
 	@Override

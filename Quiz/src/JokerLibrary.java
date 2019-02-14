@@ -7,7 +7,7 @@ public class JokerLibrary {
 
 	/**
 	 * init and return jokerlist
-	 * @param questionCount
+	 * @param questionCount int for number of questions
 	 * @return List<Joker> jokerList
 	 */
 	public static List<Joker> getJoker(int questionCount) {
@@ -20,7 +20,7 @@ public class JokerLibrary {
 
 	/**
 	 * ask user for / until number between 0 and param maxInputNumber
-	 * @param maxInputNumber
+	 * @param maxInputNumber int limits the max number user can input
 	 * @return int input
 	 */
 	private static int getJokerChoiceNumber(int maxInputNumber){
@@ -42,8 +42,8 @@ public class JokerLibrary {
 	}
 	/**
 	 * shows user availble jokers and returns list of them 
-	 * @param question
-	 * @param player
+	 * @param question class instance
+	 * @param player class instance
 	 * @return List<Joker> possibleJokers
 	 */
 	private static List<Joker> getPossiblJokers(Question question,Player player){
@@ -65,9 +65,9 @@ public class JokerLibrary {
 	// possible name useJoker / checkForJoker
 	/**
 	 * high level function for joker usage
-	 * @param question
-	 * @param player
-	 * @param questionNumber
+	 * @param question class instance
+	 * @param player class instance
+	 * @param questionNumber number to find the current question
 	 * @return void
 	 */
 	public static void askForJoker(Question question, Player player, int questionNumber) {
@@ -95,8 +95,8 @@ public class JokerLibrary {
 
 	/**
 	 * decide which joker type to show
-	 * @param question
-	 * @param joker
+	 * @param question class instance
+	 * @param joker class instance
 	 * @return void
 	 */
 	private static void showJoker(Question question, Joker joker) {
@@ -119,7 +119,7 @@ public class JokerLibrary {
 
 	/**
 	 * initializes jokers
-	 * @param jokerCount
+	 * @param jokerCount number of jokers
 	 * @return void
 	 */
 	private static void initJokerList(int jokerCount) {

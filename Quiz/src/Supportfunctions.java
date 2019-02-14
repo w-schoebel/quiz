@@ -5,7 +5,7 @@ public class Supportfunctions {
 	
 	/**
 	 * get random char from given alphabet
-	 * @param alphabet
+	 * @param alphabet String of avaliable letters
 	 * @return char char
 	 */
 	public static char getRandomChar(String alphabet) {
@@ -17,7 +17,7 @@ public class Supportfunctions {
 	
 	/**
 	 *  get random int
-	 * @param range
+	 * @param range int for range of random int
 	 * @return int int
 	 */
 	public static int getRandomInt(int range) {

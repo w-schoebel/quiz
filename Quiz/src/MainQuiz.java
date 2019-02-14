@@ -25,7 +25,7 @@ public class MainQuiz {
 
 	/**
 	 * ask players to enter their name in order to have a list of players
-	 * @param playerCount
+	 * @param playerCount how many players should be created
 	 * @return list of player objects
 	 */
 	private Player[] initPlayers(int playerCount) {
@@ -44,7 +44,7 @@ public class MainQuiz {
 	}
 	/**
 	 * display the current score rankings
-	 * @param players
+	 * @param players List of Player class instances
 	 * @return void
 	 */
 	private static void showScoreBoard(Player[] players){
@@ -54,7 +54,7 @@ public class MainQuiz {
 	}
 	/**
 	 * ask players how many round they each want to play
-	 * @param players
+	 * @param players List of Player class instances
 	 * @return int roundCount
 	 */
 	private static int askRoundNumber(Player[] players){
@@ -84,8 +84,8 @@ public class MainQuiz {
 
 	/**
 	 * increase score
-	 * @param players
-	 * @param currentPlayer
+	 * @param players List of Player class instances
+	 * @param currentPlayer index to find current player class intance
 	 * @return void
 	 */
 	private void increaseScore(Player[] players, int currentPlayer) {
@@ -95,7 +95,7 @@ public class MainQuiz {
 	}
 	/**
 	 * check if there is a draw
-	 * @param players
+	 * @param players List of Player class instances
 	 * @return boolean draw 
 	 */
 	private boolean isDraw(Player[] players) {

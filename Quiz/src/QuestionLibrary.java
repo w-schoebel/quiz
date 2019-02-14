@@ -12,7 +12,7 @@ public class QuestionLibrary {
  
     /**
      * return list of Questions (from db connection)
-     * @param filePath 
+     * @param filePath String of file path of db
      * @return List<Question> _questions
      */
     public List<Question> getQuestions(String filePath) {
@@ -24,7 +24,7 @@ public class QuestionLibrary {
    /**
     * Database connection to fill question list
     * process taken from Mircrosoft
-    * @param filePath
+    * @param filePath String of file path of db
     * @return void
     */
     private void GetQuestionsFromDatabase(String filePath) {

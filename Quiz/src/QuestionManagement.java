@@ -44,15 +44,13 @@ public class QuestionManagement {
 	/**
 	 * takes number and returns List of certain questiontype
 	 * questionType is determined by number % x == 0
-	 * @param questionNumber
+	 * @param questionNumber int 
 	 * @return List<Question> questionTpeList
 	 */
 	public static List<Question> getQuestionTypeList(int questionNumber) {
 
-		if (_questions == null) { // wird hier nur ausgef�hrt falls im Vorfeld noch keine Initialisierung der
-									// Fragen vorgenommen wurde -> sollte eigentlich nicht auftreten
-			initQuestionList();
-		}
+		if (_questions == null) initQuestionList();
+	
 
 		if (questionNumber % 3 == 0) return _questionsUserInput;  
 		else if (questionNumber % 2 == 0) return _questionsTrueFalse;  
@@ -62,8 +60,8 @@ public class QuestionManagement {
 	}
 
 	/**
-	 * takes array of questions and then returns random question out of that array
-	 * @param List<Question> 
+	 * takes List of questions and then returns random question out of that array
+	 * @param List<Question> List of question class instances
 	 * @return Question question
 	 */
 	public static Question getQuestion(List<Question> arr){
@@ -79,8 +77,6 @@ public class QuestionManagement {
 			_questions.remove(question);
 			return question;
 		} else {
-			// else dosent make much sense 
-			// i dont understand this at all, why is this here
 			if (_questions != null) {
 
 				question = _questions.get(Supportfunctions.getRandomInt(_questions.size()));
@@ -98,8 +94,7 @@ public class QuestionManagement {
 
 	/**
 	 * forces user to enter a valid input
-	 * @param question
-	 * @param jokerAlreadyUsed
+	 * @param question question class instance
 	 * @return String input
 	 */
 	public static String forcePossibleInput(Question question) {
@@ -154,8 +149,8 @@ public class QuestionManagement {
 	/**
 	 * 
 	 * checks questiontypes and then checks if user answer is correct
-	 * @param question
-	 * @param jokerAlreadyUsed
+	 * @param question question class instance
+	 * @param input input from user
 	 * @return boolean isCorrectSolved
 	 */
 	public static Boolean checkAnswer(Question question, String input) {
@@ -178,9 +173,9 @@ public class QuestionManagement {
 
 	/**
 	 * sorts current question for type then displays it
-	 * @param question
-	 * @param questionNumber
-	 * @param player
+	 * @param question question class instance 
+	 * @param questionNumber  int number of current question 
+	 * @param player player class instance
 	 * @return void
 	 */
 	public static void showQuestion(Question question, int questionNumber, Player player) {
